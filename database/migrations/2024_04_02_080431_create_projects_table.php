@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->uuid();
             $table->string("projectName");
-            $table->bool("privateFlag");
+            $table->boolean("privateFlag");
             $table->uuid("projectOwner");
-            $table->bool("autoCheck");
+            $table->boolean("autoCheck");
             $table->string("description");
-            $table->int("viewCount");
+            $table->integer("viewCount");
             $table->timestamps();
         });
     }

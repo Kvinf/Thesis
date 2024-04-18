@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid();
             $table->uuid("projectId");
             $table->uuid("userId");
-            $table->int("access");
+            $table->integer("access");
             $table->timestamps();
         });
     }
