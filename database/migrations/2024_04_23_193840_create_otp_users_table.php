@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('otp_users', function (Blueprint $table) {
             $table->id();
+            $table->uuid("userId");
+            $table->string("otp");
             $table->timestamps();
         });
     }
