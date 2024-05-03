@@ -1,0 +1,147 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.main {
+    margin-left: 200px;
+    width: calc(100% - 200px);
+}
+
+header {
+    background-color: #393E46;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center; /* Center the search bar */
+    align-items: center;
+}
+nav {
+    background: #333;
+    color: white;
+    padding: 10px 0;
+    height: 100vh;
+    width: 200px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    min-width: 100px;
+}
+nav a:hover {
+    background: #535353;
+    border-radius: 15px;
+
+}
+.content {
+    padding: 20px;
+    margin: 0 10px;
+}
+
+.title-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+
+    margin-bottom: 20px;
+}
+
+.title-button{
+    margin-left: 1em;
+    padding: 8px 16px;
+    background-color: #0073e6;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.title-button:hover {
+    background-color: #0056b3;
+}
+
+.content-title {
+    font-size: 24px;
+}
+
+.card-container, .vertical-card-container {
+    display: flex;
+    flex-direction: row; /* Default flex direction */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Improves scrolling on iOS devices */
+}
+
+.card{
+    flex: 0 0 auto; /* Prevent cards from shrinking */
+    width: 240px; /* Fixed width for each card */
+    background-color: white;
+    margin: 0 10px; /* Horizontal margin for spacing between cards */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 12px;
+}
+.vertical-card{
+    flex: 0 0 auto; /* Prevent cards from shrinking */
+    background-color: white;
+    margin: 10px 10px; /* Horizontal margin for spacing between cards */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 12px;
+}
+
+.vertical-card-container{
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 500px; /* Optional: set a max height for scrolling */
+}
+
+footer {
+    text-align: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    width: calc(100% - 200px); /* Adjust width to compensate for nav bar */
+    position: fixed;
+    bottom: 0;
+    left: 200px; /* Position starts where nav ends */
+}
+.search-bar {
+    display: flex;
+    width: 100%; /* Full width of the header */
+    max-width: 400px; /* Max width for the search bar */
+}
+.search-bar input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 12px 0 0 12px;
+    outline: none;
+}
+.search-bar button {
+    padding: 8px 16px;
+    background-color: #222831;
+    border: none;
+    border-radius: 0 12px 12px 0;
+    cursor: pointer;
+    color: white;
+}
+.search-bar button:hover {
+    background-color: #393E46;
+}
