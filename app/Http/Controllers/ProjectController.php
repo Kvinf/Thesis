@@ -6,6 +6,11 @@ use App\Models\Project;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class ProjectController extends Controller
 {
@@ -20,9 +25,39 @@ class ProjectController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
+    public function create(Request $request)
+    {   
+        try 
+        {
+            $validateData = $request->validate([
+                'name' => 'required',
+                'private' => 'required|boolean',
+                'description' => 'required'
+            ]);
+    
+            DB::beginTransaction();
+            
+            $insertItem = ([
+                'projectName' => $validateData['name'],
+                'privateFlag' =>  $validateData['private'],
+                'projectOwner' => Auth::id(),
+                'autoCheck' => false,
+                'description' => $validateData['description'],
+                'viewCount' => 0
+            ]);
+    
+            $item = Project::create($insertItem);
+            return redirect()->route('/project/' + $item->id );
+            DB::commit();
+        }
+
+        catch (Exception $ex) {
+            DB::rollBack();
+            return redirect()->route('/')->withErrors('An error occurred: ' . $ex->getMessage());
+
+        }
+        
+
     }
 
     /**
