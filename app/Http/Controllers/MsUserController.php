@@ -44,14 +44,11 @@ class MsUserController extends Controller
             if (Auth::attempt($credentials)) {
                
                 $user = Auth::user();
-                Session::put('foo', 'bar');
-                session()->save(); 
 
-                error_log(Session::get('foo'));
-                if (!$user->verified) {
+                if ($user->verified) {
                     return redirect('/');;
                 } else {
-                    return redirect('/signup');
+                    return redirect('/otp');
                 }
             } else {
                 error_log("Invalid credentials attempt for email: {$validateData['email']}");
@@ -72,7 +69,7 @@ class MsUserController extends Controller
                 'otp' => 'required|min:6|numeric',
             ]);
 
-            $userId = session('user_id');
+            $userId = Auth::id();
             $otp = $validatedData['otp'];
 
             $otpRecord = otpUser::where('userId', $userId)
@@ -81,20 +78,22 @@ class MsUserController extends Controller
 
             if (!$otpRecord) {
                 throw new Exception("Invalid OTP or User ID.");
+                return redirect()->route('/otp');
+
             }
 
             $otpRecord->delete();
 
-            MsUser::where('userId', $userId)->update(['verified' => '1']);
+            MsUser::where('id', $userId)->update(['verified' => '1']);
 
             DB::commit();
 
-            return redirect()->route('signup');
+            return redirect()->route('/');
         } catch (Exception $ex) {
             DB::rollback();
             error_log($ex->getMessage());
 
-            return redirect()->route('signup')->withErrors('An error occurred: ' . $ex->getMessage());
+            return redirect()->route('Login')->withErrors('An error occurred: ' . $ex->getMessage());
         }
     }
 
