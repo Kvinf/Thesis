@@ -7,24 +7,26 @@
     <title>Sign Up</title>
 </head>
 
+
+
 <body>
     <div class="container">
         @if(Auth::check())
         <p>You Are Logged In</p>
         @else
-        <form method="POST" action="{{ route('registerPost') }}">
-            @csrf {{-- CSRF token for security --}}
-
+        @php
+        echo Session::get('foo', 'Default value if foo does not exist');
+        @endphp
+        <form method="POST" action="{{ route('loginPost') }}">
+            @csrf
+            
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
 
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-
-            <button type="submit">Sign Up</button>
+            <button type="submit">Login</button>
         </form>
         @endif
     </div>
