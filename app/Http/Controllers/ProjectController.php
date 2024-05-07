@@ -25,13 +25,15 @@ class ProjectController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
+
     public function create(Request $request)
     {   
         try 
         {
             $validateData = $request->validate([
                 'name' => 'required',
-                'private' => 'required|boolean',
+                'private' => 'required',
                 'description' => 'required'
             ]);
     
@@ -47,13 +49,14 @@ class ProjectController extends Controller
             ]);
     
             $item = Project::create($insertItem);
-            return redirect()->route('/project/' + $item->id );
             DB::commit();
+
+            return redirect()->route('dashboard');
         }
 
         catch (Exception $ex) {
             DB::rollBack();
-            return redirect()->route('/')->withErrors('An error occurred: ' . $ex->getMessage());
+            return redirect()->route('dashboard')->withErrors('An error occurred: ' . $ex->getMessage());
 
         }
         

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\MsUser;
+use App\Models\Project;
+
 use App\Models\otpUser;
 
 use App\Http\Controllers\Controller;
@@ -92,9 +94,14 @@ class MsUserController extends Controller
         } catch (Exception $ex) {
             DB::rollback();
             error_log($ex->getMessage());
-
-            return redirect()->route('Login')->withErrors('An error occurred: ' . $ex->getMessage());
+            return redirect()->route('login')->withErrors('An error occurred: ' . $ex->getMessage());
         }
+    }
+
+    public function dashboardview(){
+        $item = Project::where('projectOwner',Auth::id())->get();
+        error_log($item);
+        return view('dashboard')->with('items', $item);
     }
 
     public function create(Request $request)
