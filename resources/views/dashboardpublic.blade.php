@@ -25,7 +25,6 @@
         <a href="#">About</a>
         <a href="#">Services</a>
         <a href="#">Contact</a>
-        <a href="{{route("logout")}}">Logout</a>    
     </nav>
     <div class="main">
         <header style="   display: flex;
@@ -37,19 +36,6 @@
             </form>
         </header>
         <div class="content">
-            <div class="title-container">
-                <h2 class="content-title">Your Projects</h2>
-                <button class="title-button" data-toggle="modal" data-target="#exampleModal">+</button>
-            </div>
-            <div class="card-container">
-                @foreach ($items as $item)
-                <div class="card">
-                    <h3>{{ $item->projectName }}</h3>
-                    <p>{{ $item->description }}</p>
-                </div>
-                @endforeach
-
-            </div>
             <div class="title-container">
                 <h2 class="content-title">Public API</h2>
             </div>
@@ -119,6 +105,4 @@
             </div>
         </div>
     </div>
-
-    <script src="script.js"></script>
 </body>
