@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('otp_users', function (Blueprint $table) {
-            $table->id();
+            $table->uuid("id");
             $table->uuid("userId");
             $table->string("otp");
             $table->timestamps();
