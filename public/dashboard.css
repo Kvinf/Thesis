@@ -34,6 +34,7 @@ nav {
     flex-direction: column;
     align-items: center;
 }
+
 nav a {
     color: white;
     text-decoration: none;
@@ -48,6 +49,7 @@ nav a:hover {
     border-radius: 15px;
 
 }
+
 .content {
     padding: 20px;
     margin: 0 10px;
@@ -91,7 +93,7 @@ nav a:hover {
     flex: 0 0 auto; /* Prevent cards from shrinking */
     width: 240px; /* Fixed width for each card */
     background-color: white;
-    margin: 0 10px; /* Horizontal margin for spacing between cards */
+    margin: 10px 10px; /* Horizontal margin for spacing between cards */
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     border-radius: 12px;
@@ -109,7 +111,6 @@ nav a:hover {
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: auto;
-    max-height: 500px; /* Optional: set a max height for scrolling */
 }
 
 footer {
