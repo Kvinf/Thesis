@@ -12,7 +12,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+    @if ($errors->any())
+        <script>
+            alert("{{ $errors->first() }}");
+        </script>
+    @endif
 </head>
 
 <body>
@@ -26,6 +30,7 @@
         <header style="   display: flex;
         justify-content: center;">
             <form class="search-bar">
+                @csrf
                 <input type="text" placeholder="Search...">
                 <button type="submit">Search</button>
             </form>
@@ -36,32 +41,19 @@
                 <button class="title-button" data-toggle="modal" data-target="#exampleModal">+</button>
             </div>
             <div class="card-container">
+                @foreach ($items as $item)
                 <div class="card">
-                    <h3>Card Title 1</h3>
-                    <p>Description for card one. Add more details here.</p>
+                    <h3>{{ $item->projectName }}</h3>
+                    <p>{{ $item->description }}</p>
                 </div>
-                <div class="card">
-                    <h3>Card Title 2</h3>
-                    <p>Description for card two. Add more details here.</p>
-                </div>
-                <div class="card">
-                    <h3>Card Title 3</h3>
-                    <p>Description for card three. Add more details here.</p>
-                </div>
-                <div class="card">
-                    <h3>Card Title 4</h3>
-                    <p>Description for card three. Add more details here.</p>
-                </div>
-                <div class="card">
-                    <h3>Card Title 5</h3>
-                    <p>Description for card three. Add more details here.</p>
-                </div>
+                @endforeach
+
             </div>
             <div class="title-container">
                 <h2 class="content-title">Public API</h2>
             </div>
             <div class="vertical-card-container">
-                <!-- New vertical cards -->
+
                 <div class="vertical-card">
                     <h3>Vertical Card 1</h3>
                     <p>More detailed description for vertical card one. You can put even more information here.</p>
@@ -90,36 +82,39 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title" id="exampleModalLabel">Create a Blank API</h1>
-                </div>
-                <div class="modal-body">
-                    <form>
+                <form action="{{ route('addproject') }}" method="POST">
+                    @csrf
+
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="exampleModalLabel">Create a Blank API</h1>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Name:</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <label for="recipient-name" class="col-form-label">Project Name :</label>
+                            <input type="text" class="form-control" id="name" name="name">
                         </div>
                         <label for="message-text" class="col-form-label">Status:</label>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="customRadioInline1" name="customRadioInline1"
+                            <input type="radio" id="customRadioInline1" name="private" value="1"
                                 class="custom-control-input">
                             <label class="custom-control-label" for="customRadioInline1">Private</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="customRadioInline2" name="customRadioInline1"
+                            <input type="radio" id="customRadioInline2" name="private" value="0"
                                 class="custom-control-input">
                             <label class="custom-control-label" for="customRadioInline2">Public</label>
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">Description:</label>
-                            <textarea class="form-control" id="message-text"></textarea>
+                            <textarea class="form-control" id="message-text" name="description"></textarea>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>

@@ -1,0 +1,84 @@
+.containers {
+    display: flex;
+    height: 100vh;
+}
+
+/* .left_side, .right_side {
+    flex: 1;
+} */
+
+.left_side {
+    background-color: #222831;
+    justify-content: center;
+    align-items: flex-end;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.right_side {
+    background-color: #393E46;
+    flex: 2;
+}
+
+.page {
+    border: none;
+    color: white;
+    background-color: transparent;
+    font-size: clamp(1rem, 5rem, 5rem); 
+    font-weight: bold;
+    margin: 25px 0;
+    border-radius: 50px 0 0 50px;
+    padding: 20px 50px;
+  }
+
+.signup{
+    background-color: #393E46;
+    color: white;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    height: 360px;
+    aspect-ratio: 1/1;
+}
+
+.credential{
+    display: flex;
+    flex-direction: column;
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+::placeholder {
+    color: white;
+    opacity: 1; /* Firefox */
+}
+  
+::-ms-input-placeholder { /* Edge 12 -18 */
+    color: white;
+}
+
+input{
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+}
+
+.button{
+    background-color: transparent;
+    border: 0;
+    font-weight: bold;
+    margin: 50px 0;
+}
+
+.submit{
+    background-color: #222831;
+    border-radius: 25%;
+}
