@@ -18,11 +18,25 @@ Route::middleware('web')->group(function () {
         return view('login');
     })->name("login");
 
+    Route::get('/logout', function () {
+        Auth::logout();
+        return redirect()->route('');
+    })->name("logout");
+
+    Route::get('/dashboardpublic', function () {
+        return view('dashboardpublic');
+    })->name("dashboardpublic");
+
+
     Route::get('/', function () {
-        $item = Project::where('projectOwner', Auth::id())->get();
-        error_log($item);
-        return view('dashboard')->with('items', $item);
-    })->name("dashboard")->middleware('auth');
+
+        if (Auth::check()) {
+            $item = Project::where('projectOwner', Auth::id())->get();
+            return view('dashboard')->with('items', $item);
+        } else {
+            return view('dashboardpublic');
+        }
+    })->name("dashboard");
 
     Route::get('/otp', function () {
         return view('otp');
