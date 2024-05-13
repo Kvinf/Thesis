@@ -8,6 +8,22 @@ use Illuminate\Support\Facades\Auth;
 
 
 
+// <<<<<<< HEAD
+
+Route::get('/', function () {
+    return view('dashboard');
+})->name("dashboard");
+
+Route::get('/profile', function () {
+    return view('profile');
+})->name("profile");
+
+Route::get('/yourproject', function () {
+    return view('yourproject');
+})->name("yourproject");
+
+Route::post('register', [MsUserController::class, 'create'])->name('register');
+// =======
 Route::middleware('web')->group(function () {
 
     Route::get('/signup', function () {
@@ -47,3 +63,4 @@ Route::middleware('web')->group(function () {
     Route::post('otp', [MsUserController::class, 'verify'])->name('otpPost');
     Route::post('addproject', [ProjectController::class, 'create'])->name('addproject');
 });
+
