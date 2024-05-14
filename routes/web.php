@@ -8,22 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 
 
-// <<<<<<< HEAD
-
-Route::get('/', function () {
-    return view('dashboard');
-})->name("dashboard");
-
 Route::get('/profile', function () {
-    return view('profile');
-})->name("profile");
+    $item = Auth::user();
+    return view('profile')->with('items', $item);
+})->name("profile")->middleware("auth");;
 
-Route::get('/yourproject', function () {
+Route::get('/project', function () {
     return view('yourproject');
-})->name("yourproject");
+})->name("project")->middleware("auth");
 
 Route::post('register', [MsUserController::class, 'create'])->name('register');
-// =======
 Route::middleware('web')->group(function () {
 
     Route::get('/signup', function () {

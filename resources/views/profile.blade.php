@@ -34,12 +34,8 @@
                 <div class="profile-info">
                     <div class="flexbox-horizontal">
                         <div class="detail-container">
-                            <div style="font-size: 12px; opacity: 80%;">First Name</div>
-                            <div>Nama orangnya disini abang</div>
-                        </div>
-                        <div class="detail-container">
-                            <div style="font-size: 12px; opacity: 80%;">Last Name</div>
-                            <div>Nama orangnya disini abang</div>
+                            <div style="font-size: 12px; opacity: 80%;">Username</div>
+                            <div>{{$items->username}}</div>
                         </div>
                     </div>
                     <div class="flexbox-horizontal">
