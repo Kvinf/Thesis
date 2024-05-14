@@ -23,7 +23,7 @@
             <div class="credential">
                 <h1>OTP Verification</h1>
                 <br>
-                <h4>One Time Password (OTP) has been sent via Email to</h4>
+                <h4 style="text-align: center">One Time Password (OTP) has been sent via Email to<br/>{{Auth::user()->email}}</h4>
                 <input id="otp" name="otp" required>
                 <button class="submit" type="submit">Verify</button>
             </div>
