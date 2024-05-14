@@ -14,6 +14,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
+<style>
+    a:hover {
+        color: blue;
+    }
+</style>
 
 
 <body>
@@ -23,9 +28,10 @@
             <div class="credential">
                 <h1>OTP Verification</h1>
                 <br>
-                <h4 style="text-align: center">One Time Password (OTP) has been sent via Email to<br/>{{Auth::user()->email}}</h4>
+                <h4 style="text-align: center">One Time Password (OTP) has been sent via Email to<br/>Email</h4>
                 <input id="otp" name="otp" required>
                 <button class="submit" type="submit">Verify</button>
+                <p>Haven't received the OTP? <a href="">Resend</a></p>
             </div>
         </form>
     </div>

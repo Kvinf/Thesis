@@ -32,3 +32,11 @@ input {
     border-radius: 25%;
 }
 
+a:link{
+    color: blue;
+    font-weight: bold;
+}
+
+a:visited{
+    color: blue;
+}
