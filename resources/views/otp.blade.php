@@ -20,11 +20,13 @@
     <div class="containers">
         <form method="POST" action="{{ route('otpPost') }}">
             @csrf
-            
-            <label for="email">OTP : </label>
-            <input type="otp" id="otp" name="otp" required>
-
-            <button type="submit">Submit</button>
+            <div class="credential">
+                <h1>OTP Verification</h1>
+                <br>
+                <h4>One Time Password (OTP) has been sent via Email to</h4>
+                <input id="otp" name="otp" required>
+                <button class="submit" type="submit">Verify</button>
+            </div>
         </form>
     </div>
 </body>
