@@ -43,7 +43,7 @@
                 </div>
                 <div class="line"></div>
                 <div class="sign_up">
-                    <p>Don't have an account yet? <a href="">Sign Up</a></p>
+                    <p>Don't have an account yet? <a href="{{route("signup")}}">Sign Up</a></p>
                 </div>
             </div>
         </div>
