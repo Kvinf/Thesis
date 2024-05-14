@@ -39,7 +39,7 @@
                     </div>
                     <div class="line"></div>
                     <div class="log_in">
-                        <p>Already have an account? <a href="http://">Log in</a></p>
+                        <p>Already have an account? <a href="{{route("login")}}">Log in</a></p>
                     </div>
                 </form>
             </div>
