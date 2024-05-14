@@ -35,7 +35,7 @@
                         <div class="input_container">
                             <input type="password" name="password" placeholder="Password">
                         </div>
-                        <button class="submit" type="submit">Submit</button>
+                        <button class="submit" type="submit">Sign Up</button>
                     </div>
                     <div class="line"></div>
                     <div class="log_in">
@@ -44,7 +44,6 @@
                 </form>
             </div>
         </div>
-
 </body>
 
 </html>
