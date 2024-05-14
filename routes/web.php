@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\MsUserController;
+use App\Http\Controllers\ProjectController;
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 
 // <<<<<<< HEAD
@@ -31,11 +35,18 @@ Route::middleware('web')->group(function () {
     })->name("login");
 
     Route::get('/', function () {
-        return view('dashboard');
+        $item = Project::where('projectOwner', Auth::id())->get();
+        error_log($item);
+        return view('dashboard')->with('items', $item);
     })->name("dashboard")->middleware('auth');
+
+    Route::get('/otp', function () {
+        return view('otp');
+    })->name("otp")->middleware('auth');
 
     Route::post('register', [MsUserController::class, 'create'])->name('registerPost');
     Route::post('login', [MsUserController::class, 'login'])->name('loginPost');
+    Route::post('otp', [MsUserController::class, 'verify'])->name('otpPost');
+    Route::post('addproject', [ProjectController::class, 'create'])->name('addproject');
 });
-// >>>>>>> 4f8ca5a4649670d7353da3387fa54ebaddeb569f
 

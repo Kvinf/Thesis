@@ -110,7 +110,6 @@ nav a:hover {
 .vertical-card-container{
     flex-direction: column;
     overflow-x: hidden;
-    overflow-y: auto;
 }
 
 footer {
@@ -133,6 +132,7 @@ footer {
     padding: 8px;
     border: none;
     border-radius: 12px 0 0 12px;
+    color: black;
     outline: none;
 }
 .search-bar button {
