@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 
 
+Route::get('/profile', function () {
+    $item = Auth::user();
+    return view('profile')->with('items', $item);
+})->name("profile")->middleware("auth");;
+
+Route::get('/project', function () {
+    return view('yourproject');
+})->name("project")->middleware("auth");
+
+Route::post('register', [MsUserController::class, 'create'])->name('register');
 Route::middleware('web')->group(function () {
 
     Route::get('/signup', function () {
@@ -18,11 +28,25 @@ Route::middleware('web')->group(function () {
         return view('login');
     })->name("login");
 
+    Route::get('/logout', function () {
+        Auth::logout();
+        return redirect()->route('');
+    })->name("logout");
+
+    Route::get('/dashboardpublic', function () {
+        return view('dashboardpublic');
+    })->name("dashboardpublic");
+
+
     Route::get('/', function () {
-        $item = Project::where('projectOwner', Auth::id())->get();
-        error_log($item);
-        return view('dashboard')->with('items', $item);
-    })->name("dashboard")->middleware('auth');
+
+        if (Auth::check()) {
+            $item = Project::where('projectOwner', Auth::id())->get();
+            return view('dashboard')->with('items', $item);
+        } else {
+            return view('dashboardpublic');
+        }
+    })->name("dashboard");
 
     Route::get('/otp', function () {
         return view('otp');
@@ -33,3 +57,4 @@ Route::middleware('web')->group(function () {
     Route::post('otp', [MsUserController::class, 'verify'])->name('otpPost');
     Route::post('addproject', [ProjectController::class, 'create'])->name('addproject');
 });
+
