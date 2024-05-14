@@ -22,7 +22,7 @@
 <body>
     <nav>
         <a href="#">Home</a>
-        <a href="#">About</a>
+        <a href="{{route("profile")}}">Profile</a>
         <a href="#">Services</a>
         <a href="#">Contact</a>
         <a href="{{route("logout")}}">Logout</a>    
