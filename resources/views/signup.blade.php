@@ -17,27 +17,31 @@
 <body>
     <div class="containers">
         <div class="left_side">
-            <button class="page login">Login</button>
-            <button class="page signup">Sign Up</button>
-        </div>
-        <div class="right_side">
             <div class="logo">
                 <img src="https://media.neliti.com/media/organisations/logo-219-binus.png" alt="missing">
             </div>
+        </div>
+        <div class="right_side">
             <div>
                 <form action="{{ route('registerPost') }}" method="POST">
                     @csrf
                     <div class="credential">
-                        <input type="text" name="username" placeholder="Username">
-                        <input type="email" name="email" placeholder="Email">
-                        <input type="password" name="password" placeholder="Password">
-                        <div>
-                            {{-- <button class="button fpassword">Forgot Password?</button> --}}
-                            <button class="button submit" type="submit">Submit</button>
+                        <div class="input_container">
+                            <input type="text" name="username" placeholder="Username">
                         </div>
+                        <div class="input_container">
+                            <input type="email" name="email" placeholder="Email">
+                        </div>
+                        <div class="input_container">
+                            <input type="password" name="password" placeholder="Password">
+                        </div>
+                        <button class="submit" type="submit">Submit</button>
+                    </div>
+                    <div class="line"></div>
+                    <div class="log_in">
+                        <p>Already have an account? <a href="http://">Log in</a></p>
                     </div>
                 </form>
-
             </div>
         </div>
 
