@@ -50,7 +50,7 @@ Route::middleware('web')->group(function () {
 
     Route::get('/otp', function () {
         return view('otp');
-    })->name("otp")->middleware('auth');
+    })->name("otp");
 
     Route::post('register', [MsUserController::class, 'create'])->name('registerPost');
     Route::post('login', [MsUserController::class, 'login'])->name('loginPost');
