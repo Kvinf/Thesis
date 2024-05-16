@@ -29,21 +29,24 @@
         </div>
         <div class="right_side">
             <div>
-                <div class="credential">
-                    <div class="input_container">
-                        <input type="email" name="email" placeholder="Email">
+                <form action="{{ route('loginPost') }}" method="POST">
+                    @csrf
+                    <div class="credential">
+                        <div class="input_container">
+                            <input type="email" name="email" placeholder="Email">
+                        </div>
+                        <div class="input_container">
+                            <input type="password" name="password" placeholder="Password">
+                        </div>
+                        <div>
+                            <a href="http://">Forgot password?</a>
+                            <button class="submit" type="submit">Log in</button>
+                        </div>
                     </div>
-                    <div class="input_container">
-                        <input type="password" name="password" placeholder="Password">
-                    </div>
-                    <div>
-                        <a href="http://">Forgot password?</a>
-                        <button class="submit" type="submit">Log in</button>
-                    </div>
-                </div>
+                </form>
                 <div class="line"></div>
                 <div class="sign_up">
-                    <p>Don't have an account yet? <a href="">Sign Up</a></p>
+                    <p>Don't have an account yet? <a href="{{route("signup")}}">Sign Up</a></p>
                 </div>
             </div>
         </div>

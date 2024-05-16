@@ -87,3 +87,37 @@ body {
     border-radius: 25px;
     padding: 30px;
 }
+
+pre{
+    background-color: #393E46;
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.accordion-item{
+    margin: 20px;
+}
+
+.accordion-header{
+    border: 2px solid grey;
+}
+
+.accordion-body{
+    border: 2px solid grey;
+}
+
+.project-name{
+    margin: 20px;
+}
+
+.http-button{
+    width: 70px;
+    height: 35px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+}
