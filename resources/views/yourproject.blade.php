@@ -39,6 +39,7 @@
 
         <div class="project-name">
             <h2>Project Kevin</h2>
+            <button class="title-button btn-dark" data-toggle="modal" data-target="#exampleModal" fdprocessedid="fke4lf">Edit</button>
         </div>
 
         <div class="project-description">

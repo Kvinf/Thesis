@@ -61,7 +61,6 @@ header {
     background-color: #393E46;
 }
 
-
 .main {
     margin-left: 200px;
     width: calc(100% - 200px);
@@ -76,58 +75,28 @@ body {
     background-color: #f4f4f4;
 }
 
-.project-name{
-    margin:10px
-}
 
-.project-description{
-    gap: 50px;
-    margin: 20px;
-    border: 2px solid grey;
-    border-radius: 25px;
-    padding: 30px;
-}
-
-pre{
-    background-color: #393E46;
-    border-radius: 20px;
-    padding: 30px;
-}
-
-.accordion-item{
-    margin: 20px;
-}
-
-.accordion-header{
-    border: 2px solid grey;
-}
-
-.accordion-body{
-    border: 2px solid grey;
-}
-
-.project-name{
-    margin: 20px;
+.form-group{
     display: flex;
+}
+
+.card{
+    flex: 0 0 auto; /* Prevent cards from shrinking */
+    background-color: white;
+    margin: 10px 10px; /* Horizontal margin for spacing between cards */
+    padding: 10px 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    align-items: center;
     justify-content: space-between;
 }
 
-.title-button{
-    margin-left: 1em;
-    padding: 8px 16px;
-    border-radius: 10px;
-    text-align: center;
-    border: 1px solid transparent;
+.content{
+    margin: 10px 10px;
 }
 
-.http-button{
-    width: 70px;
-    height: 35px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    border-radius: 10px;
+img{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
 }
