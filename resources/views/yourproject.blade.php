@@ -47,6 +47,9 @@
             <h2>{{ $project->projectName }}</h2>
             <a href="{{ route('addapi', ['id' => $project->id]) }}" class="btn btn-submit">Add API</a>
         </div>  
+            <h2>Project Kevin</h2>
+            <button class="title-button btn-dark" data-toggle="modal" data-target="#exampleModal" fdprocessedid="fke4lf">Edit</button>
+        </div>
 
         <div class="project-description">
             <p><strong>Description</strong></p>
