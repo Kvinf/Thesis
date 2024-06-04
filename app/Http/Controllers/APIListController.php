@@ -6,6 +6,7 @@ use App\Models\APIList;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAPIListRequest;
 use App\Http\Requests\UpdateAPIListRequest;
+use App\Models\APICategory;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -85,12 +86,17 @@ class APIListController extends Controller
             'header' => 'nullable|string',
             'body' => 'nullable|string',
             'result' => 'required|string',
-            'projectId' => 'required'
+            'projectId' => 'required',
+            'categoryId' => 'nullable'
         ]);
 
         try {
-
             DB::beginTransaction();
+
+            error_log($validated['categoryId']);
+            if ($validated['categoryId'] == "") {
+                $validated['categoryId'] = null;
+            }
             APIList::create($validated);
             DB::commit();
             return redirect()->route("project",['id' => $validated['projectId']]);
@@ -108,11 +114,14 @@ class APIListController extends Controller
         $fail = $request->query('fail');
         $input = $request->query('input');
 
+        $category = APICategory::where('projectId',$id)->get();
+
         return view('addapi')->with([
             'projectId' => $id,
             'success' => $success ? json_encode($success, JSON_PRETTY_PRINT) : null,
             'fail' => $fail ? json_encode($fail, JSON_PRETTY_PRINT) : null,
-            'input' => $input ? $input : null
+            'input' => $input ? $input : null,
+            'category' => $category
         ]);
     }
 

@@ -1,14 +1,15 @@
 <?php
 
+use App\Http\Controllers\APICategoryController;
 use App\Http\Controllers\APIListController;
 use App\Http\Controllers\MsUserController;
 use App\Http\Controllers\ProjectController;
+use App\Models\APICategory;
 use App\Models\APIList;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
 
 
 Route::get('/profile', function () {
@@ -23,10 +24,33 @@ Route::get('/project/{id}', function ($id) {
 
     $item = Project::where('id', $id)->first();
 
-    $itemProject = APIList::where('projectId',$item->id)->get();
     
     if ($item) {
-        return view('yourproject')->with(['project' => $item, 'api' => $itemProject]);
+
+        $category = APICategory::where('projectId',$id)->get();
+
+        $result = [];
+
+        foreach($category as $i) {
+            $temp = [];
+            $temp['category'] = $i->categoryName;
+
+            $apilist = APIList::where('categoryId',$i->id)->get();
+            $temp['api'] = $apilist;
+
+            $result[] = $temp;
+        }
+
+        $itemNull = APIList::where('projectId',$id)->where('categoryId' , null)->get();
+
+        if ($itemNull->isNotEmpty()) {
+            $temp['category'] = "Uncategorized";
+            $temp['api'] = $itemNull;
+            $result[] = $temp;
+
+        }
+
+        return view('yourproject')->with(['project' => $item, 'api' => $result]);
     } else {
         return redirect()->route("dashboard")->withErrors("Project Not Found");
     }
@@ -74,4 +98,7 @@ Route::middleware('web')->group(function () {
     Route::post('login', [MsUserController::class, 'login'])->name('loginPost');
     Route::post('otp', [MsUserController::class, 'verify'])->name('otpPost');
     Route::post('addproject', [ProjectController::class, 'create'])->name('addproject');
+    Route::patch('updateproject',[ProjectController::class,'updateProject'])->name('updateproject');
+    Route::post('addcategory',[APICategoryController::class,'create'])->name('addcategory');
+
 });
