@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('method');
             $table->string('description')->nullable();
             $table->string('authorization')->nullable();
-            $table->string('projectId');
+            $table->uuid('projectId');
+            $table->uuid('categoryId')->nullable();
             $table->timestamps();
         });
     }
