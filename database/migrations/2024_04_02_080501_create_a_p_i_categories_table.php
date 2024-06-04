@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('a_p_i_categories', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid("id");
             $table->uuid("projectId");
             $table->string("categoryName");
             $table->timestamps();
+            $table->string('inserted_by')->nullable();
+            $table->string('updated_by')->nullable();
         });
     }
 
