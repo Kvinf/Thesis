@@ -107,11 +107,6 @@ body {
 }
 
 
-.flexbox-horizontal {
-    content: "";
-    display: flex;
-    clear: both;
-}
 
 .detail-container {
     box-sizing: border-box;
@@ -126,3 +121,17 @@ body {
       width: 100%;
     }
   }
+
+.account-content {
+    gap: 50px; /* Space between profile picture and info */
+    margin: 10px;
+    border: 2px solid grey;
+    border-radius: 25px;
+    padding: 30px;
+}
+
+.account-alignment{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
