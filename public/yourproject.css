@@ -32,6 +32,16 @@ pre{
 
 .project-name{
     margin: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.title-button{
+    margin-left: 1em;
+    padding: 8px 16px;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid transparent;
 }
 
 .http-button{

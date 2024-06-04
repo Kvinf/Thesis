@@ -61,6 +61,7 @@
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProjectModal">Edit Project</button>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCateogryModal">Add Category</button>
             </div>
+
         </div>
 
         <div class="project-description">
