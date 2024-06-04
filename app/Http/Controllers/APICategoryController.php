@@ -6,6 +6,10 @@ use App\Models\APICategory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAPICategoryRequest;
 use App\Http\Requests\UpdateAPICategoryRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class APICategoryController extends Controller
 {
@@ -20,9 +24,37 @@ class APICategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        try {
+            $validateData = $request->validate([
+                'projectId' => 'required',
+                'categoryName' => 'required',
+            ]);
+
+            DB::beginTransaction();
+
+            $item = APICategory::where(['projectId' => $validateData['projectId'], 'categoryName' => $validateData['categoryName']])->first();
+
+            if ($item) {
+                DB::rollBack();
+                return back()->withErrors('Category already available');
+            }
+
+            $insertItem = ([
+                'projectId' => $validateData['projectId'],
+                'categoryName' => $validateData['categoryName'],
+                'inserted_by' => Auth::id(),
+            ]);
+
+            $item = APICategory::create($insertItem);
+            DB::commit();
+
+            return back()->withErrors('Category Inserted');
+        } catch (Exception $ex) {
+            DB::rollBack();
+            return redirect()->route('dashboard')->withErrors('An error occurred: ' . $ex->getMessage());
+        }
     }
 
     /**

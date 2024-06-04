@@ -19,8 +19,6 @@
         color: blue;
     }
 </style>
-
-
 <body>
     <div class="containers">
         <form method="POST" action="{{ route('otpPost') }}">
