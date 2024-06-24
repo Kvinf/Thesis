@@ -37,7 +37,7 @@
         </nav>
         <header style="   display: flex;
         justify-content: space-between;">
-            <div class="icon" id="menu-icon"><img src="{{asset('../align-justify-svgrepo-com.svg')}}"></div>
+            <div class="icon" id="menu-icon"><img src="{{asset('align-justify-svgrepo-com.svg')}}"></div>
             <div class="search-bar">
 
                 <input type="text" id="searchValue" placeholder="Search...">
@@ -50,7 +50,7 @@
     </div>
 
 </body>
-<script src="../script.js"></script>
+<script src="{{asset('script.js')}}"></script>
 <script>
     function searchClick() {
         const searchValue = document.getElementById("searchValue").value;
