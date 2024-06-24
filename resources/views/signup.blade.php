@@ -6,12 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-    <link rel="stylesheet" href="../signup.css">
-    <!-- Latest compiled and minified CSS -->
-    <!-- jQuery library -->
+    <link rel="stylesheet" href="../login.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
         a:hover {
@@ -24,7 +20,7 @@
     <div class="containers">
         <div class="left_side">
             <div class="logo">
-                <img src="https://media.neliti.com/media/organisations/logo-219-binus.png" alt="missing">
+                <span class="autoType">API DOCUMENTATION</span>
             </div>
         </div>
         <div class="right_side">
@@ -32,16 +28,23 @@
                 <form action="{{ route('registerPost') }}" method="POST">
                     @csrf
                     <div class="credential">
-                        <div class="input_container">
-                            <input type="text" name="username" placeholder="Username">
+                        <div style="flex : 3 ; margin-right : 10px;margin-bottom : 10px">
+                            <div style="font-weight : bold;margin-bottom : 10px">Username</div>
+                            <input type="text" class="form-control" id="name" name="username"
+                                style="color : #f4f4f4 ; background-color: transparent">
                         </div>
-                        <div class="input_container">
-                            <input type="email" name="email" placeholder="Email">
+                       
+                        <div style="flex : 3 ; margin-right : 10px;margin-bottom : 10px">
+                            <div style="font-weight : bold;margin-bottom : 10px">Email</div>
+                            <input type="text" class="form-control" id="name" name="email"
+                                style="color : #f4f4f4 ; background-color: transparent">
                         </div>
-                        <div class="input_container">
-                            <input type="password" name="password" placeholder="Password">
+                        <div style="flex : 3 ; margin-right : 10px;margin-bottom : 10px">
+                            <div style="font-weight : bold;margin-bottom : 10px">Password</div>
+                            <input type="password" class="form-control" id="password" name="password"
+                                style="color : #f4f4f4 ; background-color: transparent">
                         </div>
-                        <button class="submit" type="submit">Sign Up</button>
+                        <button class="custom-button submit-button" type="submit">Sign Up</button>
                     </div>
                     <div class="line"></div>
                     <div class="log_in">

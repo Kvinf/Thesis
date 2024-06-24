@@ -1,100 +1,81 @@
 @extends('layout')
 
+@section('header')
+@endsection
+
 @section('content')
-    <div class="main">
-        <header style="   display: flex;
-        justify-content: center;">
-            <form class="search-bar">
-                @csrf
-                <input type="text" placeholder="Search...">
-                <button type="submit">Search</button>
-            </form>
-        </header>
-        <div class="content">
-            <div class="title-container">
-                <h2 class="content-title">Your Projects</h2>
-                <button class="title-button" data-toggle="modal" data-target="#exampleModal">+</button>
+    <div class="main-content">
+        <aside class="private-content">
+            <div class="title-container" style="margin-bottom: 10px ">
+                <h2 class="content-title private-title" >Your Projects</h2>
             </div>
             <div class="card-container">
+                <button class="title-button" data-toggle="modal" data-target="#exampleModal">+ Project</button>
+                <div class="card-item">
                 @foreach ($items as $item)
-                <a href="{{ route("project", ['id' => $item->id]) }}">
-                        <div class="card">
-                            <h3>{{ $item->projectName }}</h3>
-                            <p>{{ $item->description }}</p>
-                        </div>
+                    <a class="card" href="{{ route('project', ['id' => $item->id]) }}">
+                        {{ $item->projectName }}
                     </a>
                 @endforeach
+                </div>
 
             </div>
+        </aside>
+        <div class="public-content" style="align-items: flex-start">
             <div class="title-container">
                 <h2 class="content-title">Public API</h2>
             </div>
             <div class="vertical-card-container">
-
-                <div class="vertical-card">
-                    <h3>Vertical Card 1</h3>
-                    <p>More detailed description for vertical card one. You can put even more information here.</p>
-                </div>
-                <div class="vertical-card">
-                    <h3>Vertical Card 2</h3>
-                    <p>More detailed description for vertical card two. You can put even more information here.</p>
-                </div>
-                <div class="vertical-card">
-                    <h3>Vertical Card 3</h3>
-                    <p>More detailed description for vertical card three. You can put even more information here.</p>
-                </div>
-                <div class="vertical-card">
-                    <h3>Vertical Card 4</h3>
-                    <p>More detailed description for vertical card three. You can put even more information here.</p>
-                </div>
-                <div class="vertical-card">
-                    <h3>Vertical Card 5</h3>
-                    <p>More detailed description for vertical card three. You can put even more information here.</p>
-                </div>
+                @foreach ($public as $item)
+                    <a class="vertical-card" href="{{ route('project', ['id' => $item->id]) }}">
+                        <div class="card-title">{{ $item->projectName }}</div>
+                        <div class="card-description">{{ $item->description }}</div>
+                    </a>
+                @endforeach
             </div>
         </div>
     </div>
+
+
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color: #222831 ">
                 <form action="{{ route('addproject') }}" method="POST">
                     @csrf
 
                     <div class="modal-header">
-                        <h1 class="modal-title" id="exampleModalLabel">Create a Blank API</h1>
+                        <h1 class="modal-title" id="exampleModalLabel" style="color:#f4f4f4; font-weight:bold; font-size : 25px">Create a new project</h1>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Project Name :</label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <label for="recipient-name" class="col-form-label label-item">Project Name :</label>
+                            <input type="text" class="form-control label-input" id="name" name="name" style=" border: 2px solid #333; background-color: transparent; color : #f4f4f4">
                         </div>
-                        <label for="message-text" class="col-form-label">Status:</label>
+                        <label for="message-text" class="col-form-label label-item">Status:</label>
                         <div class="custom-control custom-radio custom-control-inline">
                             <input type="radio" id="customRadioInline1" name="private" value="1"
                                 class="custom-control-input">
-                            <label class="custom-control-label" for="customRadioInline1">Private</label>
+                            <label class="custom-control-label label-item" for="customRadioInline1">Private</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
                             <input type="radio" id="customRadioInline2" name="private" value="0"
                                 class="custom-control-input">
-                            <label class="custom-control-label" for="customRadioInline2">Public</label>
+                            <label class="custom-control-label label-item" for="customRadioInline2">Public</label>
                         </div>
                         <div class="form-group">
-                            <label for="message-text" class="col-form-label">Description:</label>
-                            <textarea class="form-control" id="message-text" name="description"></textarea>
+                            <label for="message-text" class="col-form-label label-item">Description:</label>
+                            <textarea class="form-control  label-input" id="message-text" name="description"  style=" border: 2px solid #333;background-color: transparent; color : #f4f4f4"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary" type="submit">Save changes</button>
+                        <button type="button" class="custom-button close-button" data-dismiss="modal">Close</button>
+                        <button type="submit" class="custom-button submit-button" type="submit">Save changes</button>
                     </div>
                 </form>
 
             </div>
         </div>
     </div>
-
-    <script src="script.js"></script>
 @endsection

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('project_accesses', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid("id");
             $table->uuid("projectId");
             $table->uuid("userId");
             $table->integer("access");

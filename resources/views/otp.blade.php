@@ -26,10 +26,10 @@
             <div class="credential">
                 <h1>OTP Verification</h1>
                 <br>
-                <h4 style="text-align: center">One Time Password (OTP) has been sent via Email to<br/>Email</h4>
-                <input id="otp" name="otp" required>
-                <button class="submit" type="submit">Verify</button>
-                <p>Haven't received the OTP? <a href="">Resend</a></p>
+                <h4 style="text-align: center" style="margin-bottom: 10px">One Time Password (OTP) has been sent via Email to<br/>Email</h4>
+                <input id="otp" name="otp" style="margin-bottom: 10px" required>
+                <button class="custom-button submit-button" style="margin-bottom: 10px" type="submit">Verify</button>
+                <p >Haven't received the OTP? <a href="">Resend</a></p>
             </div>
         </form>
     </div>

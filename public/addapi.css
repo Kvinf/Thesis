@@ -5,18 +5,25 @@
 
 .form-input-textbox {
     border: none;
-    background-color: rgb(248, 247, 247);
+    background-color: transparent;
     font-size: 13px;
     padding: 0.675em 1em;
     width: clamp(150px, 50%, 200px);
     border-radius: 5px;
     min-height: 40px;
+    border: 2px solid #393E46;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    color: #F4F4F4;
+
 }
 
+
+
 .form-title {
-    font-size: clamp(15px, 2.5vw, 20px);
+    font-size: clamp(10px, 2.5vw, 16px);
     width: 30%;
+    color: #f4f4f4;
+    font-weight: bold;
 }
 
 .auto-resize-textarea{
@@ -29,6 +36,13 @@
     border-radius: 5px;
     padding: 0.675em 1em;
     font-size: 13px;
-    background-color: rgb(248, 247, 247);
+    border: 2px solid #393E46;
+    background-color: transparent;
+    color: #F4F4F4;
+}
 
+pre{
+    background-color: #393E46;
+    border-radius: 20px;
+    padding: 30px;
 }

@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../dashboard.css">
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     @if ($errors->any())
         <script>
-            alert("{{ $errors->first() }}");
+            document.addEventListener('DOMContentLoaded', function() {
+                alert("{{ $errors->first() }}");
+            });
         </script>
     @endif
 
@@ -21,21 +21,51 @@
 </head>
 
 <body>
-    <nav>
-        <a href="{{route("dashboard")}}">Home</a>
-        <a href="{{route("profile")}}">Profile</a>
-        <a href="#">Services</a>
-        <a href="#">Contact</a>
-        @if (Auth::check())
-        <a href="{{route("logout")}}">Logout</a>    
+    <div id="close-menu"></div>
+    <div class="main">
+        <nav id="nav-bar">
+            <div class="icon" id="close-icon"
+                style="align-self: flex-end; margin-right : 10px; width : 30px; height : 30px; "><img
+                    style="width : 25px; height : 25px; " src="../cancel2-svgrepo-com.svg" s></div>
+            <a href="{{ route('dashboard') }}">Home</a>
+            @if (Auth::check())
+                <a href="{{ route('profile') }}">Profile</a>
+                <a href="{{ route('logout') }}">Logout</a>
+            @else
+                <a href="{{ route('login') }}">Login</a>
+            @endif
+        </nav>
+        <header style="   display: flex;
+        justify-content: space-between;">
+            <div class="icon" id="menu-icon"><img src="../align-justify-svgrepo-com.svg"></div>
+            <div class="search-bar">
 
-        @else
-        <a href="{{route("login")}}">Login</a>    
+                <input type="text" id="searchValue" placeholder="Search...">
+                <button type="submit" onclick="searchClick()">Search</button>
+            </div>
+        </header>
+        @yield('content')
 
-        @endif
-    </nav>
-    
-    @yield('content')
 
-    <script src="script.js"></script>
+    </div>
+
 </body>
+<script src="../script.js"></script>
+<script>
+    function searchClick() {
+        const searchValue = document.getElementById("searchValue").value;
+        const categorySearchElement = document.getElementById("categorySearch");
+        let category = "projectname"; 
+
+
+        if (categorySearchElement) {
+            category = categorySearchElement.value;
+
+        } 
+
+        window.location.href = "{{ route('search') }}" + "?search=" + encodeURIComponent(searchValue) + "&category=" +
+            encodeURIComponent(category);
+    }
+</script>
+
+</html>

@@ -6,7 +6,7 @@
 .containers {
     display: flex;
     height: 100vh;
-    background-color: #393E46;
+    background-color: #191919;
     align-items: center;
     justify-content: center;
 }
@@ -22,15 +22,9 @@ input {
     background-color: transparent;
     border: none;
     border-bottom: 1px solid;
+    margin: 10px 5px;
 }
 
-.submit{
-    background-color: transparent;
-    border: 0;
-    font-weight: bold;
-    background-color: #222831;
-    border-radius: 25%;
-}
 
 a:link{
     color: blue;
@@ -39,4 +33,18 @@ a:link{
 
 a:visited{
     color: blue;
+}
+
+.custom-button {
+    background-color: transparent;
+    padding: 5px 10px;
+    color: #f4f4f4;
+    border-radius: 5px;
+    border: 2px solid #333;
+    transition: all 0.3s;
+}
+
+.submit-button:hover {
+    background-color: rgb(15, 253, 237);
+    color: #191919;
 }
