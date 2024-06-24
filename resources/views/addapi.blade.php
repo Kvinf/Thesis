@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('header')
-    <link rel="stylesheet" href="../addapi.css">
+    <link rel="stylesheet" href="{{asset('addapi.css')}}">
 @endsection
 
 @section('content')
@@ -35,7 +35,7 @@
                                     </input>
                                     <div class="drop-down-input"><label
                                             class="drop-down-text">{{ old('title', $input['method'] ?? 'Choose') }}</label>
-                                        <img style="width : 25px; height : 25px;" src="../dropdown-arrow-svgrepo-com.svg">
+                                        <img style="width : 25px; height : 25px;" src="{{asset('dropdown-arrow-svgrepo-com.svg')}}">
                                     </div>
 
                                 </div>
@@ -64,7 +64,7 @@
                                         <label class="drop-down-text">
                                             {{ $category->firstWhere('id', old('categoryId', $input['categoryId'] ?? ''))->categoryName ?? 'Choose' }}
                                         </label>
-                                        <img style="width: 25px; height: 25px;" src="../dropdown-arrow-svgrepo-com.svg">
+                                        <img style="width: 25px; height: 25px;" src="{{asset('dropdown-arrow-svgrepo-com.svg')}}">
                                     </div>
                                 </div>
                                 <div class="drop-down-value-group hide">
@@ -143,7 +143,7 @@
                                     <input type="hidden" class=" drop-down-value" style="width: 100%" name="method">
                                     </input>
                                     <div class="drop-down-input"><label class="drop-down-text">Choose</label> <img
-                                            style="width : 25px; height : 25px;" src="../dropdown-arrow-svgrepo-com.svg">
+                                            style="width : 25px; height : 25px;" src="{{asset('dropdown-arrow-svgrepo-com.svg')}}">
                                     </div>
 
                                 </div>
@@ -171,7 +171,7 @@
                                         <label class="drop-down-text">
                                             {{ $category->firstWhere('id', old('categoryId', $input['categoryId'] ?? ''))->categoryName ?? 'Choose' }}
                                         </label>
-                                        <img style="width: 25px; height: 25px;" src="../dropdown-arrow-svgrepo-com.svg">
+                                        <img style="width: 25px; height: 25px;" src="{{asset('dropdown-arrow-svgrepo-com.svg')}}">
                                     </div>
                                 </div>
                                 <div class="drop-down-value-group hide">

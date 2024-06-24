@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('header')
-    <link rel="stylesheet" href="../yourproject.css">
+    <link rel="stylesheet" href="{{asset('yourproject.css')}}">
 @endsection
 
 @section('content')
@@ -13,17 +13,17 @@
                 <div>
                     @if ($role > 1)
                         <a href="{{ route('addapi', ['id' => $project->id]) }}"><img style="width : 25px; height : 25px;"
-                                src="../plus-large-svgrepo-com.svg"></a>
+                                src="{{asset('plus-large-svgrepo-com.svg')}}"></a>
                         @if ($role == 3)
                             <button style="background-color: transparent; border : none" data-toggle="modal"
                                 data-target="#editProjectModal"><img style="width : 25px; height : 25px;"
-                                    src="../edit-3-svgrepo-com.svg"></button>
+                                    src="{{asset('edit-3-svgrepo-com.svg')}}"></button>
                             <button style="background-color: transparent; border : none" class="btn btn-primary"
                                 data-toggle="modal" data-target="#addCateogryModal"><img
-                                    style="width : 25px; height : 25px;" src="../category-2-svgrepo-com.svg"></button>
+                                    style="width : 25px; height : 25px;" src="{{asset('category-2-svgrepo-com.svg')}}"></button>
                             <button style="background-color: transparent; border : none" data-toggle="modal"
                                 data-target="#addAccessModal"><img style="width : 25px; height : 25px;"
-                                    src="../user-list-bold-svgrepo-com.svg"></button>
+                                    src="{{asset('user-list-bold-svgrepo-com.svg')}}"></button>
                         @endif
                     @endif
                 </div>
@@ -69,7 +69,7 @@
                                             <button style="background-color: transparent; border : none" data-toggle="modal"
                                                 data-target="#editProjectModal"><img
                                                     style="z-index : 2;width : 25px; height : 25px;"
-                                                    src="../edit-3-svgrepo-com.svg"></button>
+                                                    src="{{asset('edit-3-svgrepo-com.svg')}}"></button>
                                         @endif
                                     </div>
                                     <div id="api-{{ $item->id }}" class="accordion-collapse collapse"

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../dashboard.css">
+    <link rel="stylesheet" href="{{asset('dashboard.css')}}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -26,7 +26,7 @@
         <nav id="nav-bar">
             <div class="icon" id="close-icon"
                 style="align-self: flex-end; margin-right : 10px; width : 30px; height : 30px; "><img
-                    style="width : 25px; height : 25px; " src="../cancel2-svgrepo-com.svg" s></div>
+                    style="width : 25px; height : 25px; " src="{{asset('cancel2-svgrepo-com.svg')}}" s></div>
             <a href="{{ route('dashboard') }}">Home</a>
             @if (Auth::check())
                 <a href="{{ route('profile') }}">Profile</a>
@@ -37,7 +37,7 @@
         </nav>
         <header style="   display: flex;
         justify-content: space-between;">
-            <div class="icon" id="menu-icon"><img src="../align-justify-svgrepo-com.svg"></div>
+            <div class="icon" id="menu-icon"><img src="{{asset('../align-justify-svgrepo-com.svg')}}"></div>
             <div class="search-bar">
 
                 <input type="text" id="searchValue" placeholder="Search...">
