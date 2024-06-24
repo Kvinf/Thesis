@@ -7,13 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\APICategory;
+use App\Models\ProjectAccess;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
-use Illuminate\Support\Str;
-
 
 
 
@@ -79,11 +78,9 @@ class ProjectController extends Controller
                 'private' => 'required|boolean',
                 'description' => 'required|string'
             ]);
-    
-            // Start the transaction
+        
             DB::beginTransaction();
-    
-            // Prepare the data for insertion
+        
             $insertItem = [
                 'projectName' => $validateData['name'],
                 'privateFlag' =>  $validateData['private'],
@@ -92,22 +89,31 @@ class ProjectController extends Controller
                 'description' => $validateData['description'],
                 'viewCount' => 0
             ];
-    
+        
+            // Insert into Project table
             $item = Project::create($insertItem);
-    
+        
+            // Insert into ProjectAccess table
+            ProjectAccess::create([
+                'projectId' => $item->id,
+                'userId' => Auth::id(),
+                'access' => 3,
+            ]);
+        
+            // Insert into APICategory table
             APICategory::create([
                 'categoryName' => "Authentication",
                 'inserted_by' => Auth::id(),
                 'projectId' => $item->id,
             ]);
-    
+        
+            // Commit the transaction
             DB::commit();
-    
+        
             return redirect()->route('dashboard');
-    
+        
         } catch (Throwable $ex) {
             DB::rollBack();
-    
             return redirect()->route('dashboard')->withErrors('An error occurred: ' . $ex->getMessage());
         }
     }
@@ -122,11 +128,6 @@ class ProjectController extends Controller
 
     /**
      * Display the specified resource.
-     */
-    public function     w(Project $project)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.

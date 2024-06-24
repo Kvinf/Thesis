@@ -6,16 +6,8 @@
 
 @section('content')
 
-    <div class="main">
-        <header style="display: flex;
-        justify-content: center;">
-            <form class="search-bar">
-                @csrf
-                <input type="text" placeholder="Search...">
-                <button type="submit">Search</button>
-            </form>
-        </header>
-        <div class="content">
+    <div class="main-content">
+        <div style="min-width : 75%">
             @if (isset($success) == true && $success != null)
                 <form method="POST" action="{{ route('addapipost') }}">
                     @csrf
@@ -36,60 +28,85 @@
                         </div>
                         <div class="form-input-section">
                             <p class="form-title">Method</p>
-                            <select class="form-input-textbox" name="method">
-                                <option value="GET"
-                                    {{ old('method', $input['method'] ?? '') == 'GET' ? 'selected' : '' }}>
-                                    GET</option>
-                                <option value="POST"
-                                    {{ old('method', $input['method'] ?? '') == 'POST' ? 'selected' : '' }}>
-                                    POST</option>
-                                <option value="PUT"
-                                    {{ old('method', $input['method'] ?? '') == 'PUT' ? 'selected' : '' }}>
-                                    PUT</option>
-                                <option value="PATCH"
-                                    {{ old('method', $input['method'] ?? '') == 'PATCH' ? 'selected' : '' }}>
-                                    PATCH</option>
-                                <option value="DELETE"
-                                    {{ old('method', $input['method'] ?? '') == 'DELETE' ? 'selected' : '' }}>DELETE
-                                </option>
-                            </select>
+                            <div class="form-drop-box">
+                                <div class="form-input-dropdown drop-down-box">
+                                    <input type="hidden" value="{{ old('title', $input['method'] ?? '') }}"
+                                        class=" drop-down-value" style="width: 100%" name="method">
+                                    </input>
+                                    <div class="drop-down-input"><label
+                                            class="drop-down-text">{{ old('title', $input['method'] ?? 'Choose') }}</label>
+                                        <img style="width : 25px; height : 25px;" src="../dropdown-arrow-svgrepo-com.svg">
+                                    </div>
+
+                                </div>
+                                <div class="drop-down-value-group hide">
+                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'GET' ? 'selected' : '' }}"
+                                        value="GET">GET</div>
+                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'POST' ? 'selected' : '' }}"
+                                        value="POST">POST</div>
+                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'PUT' ? 'selected' : '' }}"
+                                        value="PUT">PUT</div>
+                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'PATCH' ? 'selected' : '' }}"
+                                        value="PATCH">PATCH</div>
+                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'DELETE' ? 'selected' : '' }}"
+                                        value="DELETE">DELETE</div>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="form-input-section">
                             <p class="form-title">Category</p>
-                            <select class="form-input-textbox" name="categoryId">
-                                <option value=""
-                                    {{ old('method', $input['categoryId'] ?? '') == "" ? 'selected' : '' }}>
-                                    Uncategorized</option>
-                                @foreach ($category as $item)
-                                    <option value="{{$item->id}}"
-                                        {{ old('method', $input['categoryId'] ?? '') == $item->categoryId ? 'selected' : '' }}>
-                                        {{$item->categoryName}}</option>
-                                @endforeach
+                            <div class="form-drop-box">
+                                <div class="form-input-dropdown drop-down-box">
+                                    <input type="hidden" class="drop-down-value" name="categoryId"
+                                        value="{{ old('categoryId', $input['categoryId'] ?? '') }}" style="width: 100%">
+                                    <div class="drop-down-input">
+                                        <label class="drop-down-text">
+                                            {{ $category->firstWhere('id', old('categoryId', $input['categoryId'] ?? ''))->categoryName ?? 'Choose' }}
+                                        </label>
+                                        <img style="width: 25px; height: 25px;" src="../dropdown-arrow-svgrepo-com.svg">
+                                    </div>
+                                </div>
+                                <div class="drop-down-value-group hide">
+                                    @foreach ($category as $item)
+                                        <div class="drop-down-item {{ old('categoryId', $input['categoryId'] ?? '') == $item->id ? 'selected' : '' }}"
+                                            value="{{ $item->id }}">
+                                            {{ $item->categoryName }}
+                                        </div>
+                                    @endforeach
+                                    <div class="drop-down-item {{ old('categoryId', $input['categoryId'] ?? '') == '' ? 'selected' : '' }}"
+                                        value="">
+                                        Uncategorized
+                                    </div>
+                                </div>
+                            </div>
 
-                            </select>
                         </div>
-                        <div clas <div class="form-input-section">
+                        <div class="form-input-section">
                             <p class="form-title">Description</p>
                             <textarea class="form-input-textbox" name="description" style="resize : none"> {{ old('description', $input['description'] ?? '') }}</textarea>
                         </div>
-                        <div class="form-input-section">
-                            <p class="form-title">Authorization</p>
-                            <div style="display: flex; align-items : center">
-                                <input style="height: auto; margin: 0" class="form-check-input" type="checkbox"
-                                    id="flexCheckDefault" name="enable"
-                                    {{ old('authorization', $input['authorization'] ?? false) ? 'checked' : '' }} /> <label
-                                    style="height: auto ; margin :0 5px" class="form-check-label" for="flexCheckDefault">
-                                    Enable
-                                </label>
+                        @if ($authCheck == true)
+                            <div class="form-input-section">
+                                <p class="form-title">Authorization</p>
+                                <div style="display: flex; align-items : center">
+                                    <input style="height: auto; margin: 0" class="form-check-input" type="checkbox"
+                                        id="flexCheckDefault" name="authorization"
+                                        {{ old('authorization', $input['authorization'] ?? false) ? 'checked' : '' }} />
+                                    <label style="height: auto ; margin :0 5px" class="form-check-label"
+                                        for="flexCheckDefault">
+                                        Enable
+                                    </label>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         <div class="form-input-section">
                             <p class="form-title">Header</p>
-                            <textarea class="auto-resize-textarea" name="header" id="autoResizeTextarea"> {{ old('header', $input['header'] ?? '') }}</textarea>
+                            <textarea class="auto-resize-textarea autoResizeTextarea" name="header" id=""> {{ old('header', $input['header'] ?? '') }}</textarea>
                         </div>
                         <div class="form-input-section">
                             <p class="form-title">Body</p>
-                            <textarea class="auto-resize-textarea" name="body" id="autoResizeTextarea">{{ old('body', $input['body'] ?? '') }}</textarea>
+                            <textarea class="auto-resize-textarea autoResizeTextarea" name="body" id="">{{ old('body', $input['body'] ?? '') }}</textarea>
                         </div>
                         <input type="hidden" name="result" value="{{ $success }}">
 
@@ -121,60 +138,81 @@
                         </div>
                         <div class="form-input-section">
                             <p class="form-title">Method</p>
-                            <select class="form-input-textbox" name="method">
-                                <option value="GET"
-                                    {{ old('method', $input['method'] ?? '') == 'GET' ? 'selected' : '' }}>
-                                    GET</option>
-                                <option value="POST"
-                                    {{ old('method', $input['method'] ?? '') == 'POST' ? 'selected' : '' }}>
-                                    POST</option>
-                                <option value="PUT"
-                                    {{ old('method', $input['method'] ?? '') == 'PUT' ? 'selected' : '' }}>
-                                    PUT</option>
-                                <option value="PATCH"
-                                    {{ old('method', $input['method'] ?? '') == 'PATCH' ? 'selected' : '' }}>
-                                    PATCH</option>
-                                <option value="DELETE"
-                                    {{ old('method', $input['method'] ?? '') == 'DELETE' ? 'selected' : '' }}>DELETE
-                                </option>
-                            </select>
+                            <div class="form-drop-box">
+                                <div class="form-input-dropdown drop-down-box">
+                                    <input type="hidden" class=" drop-down-value" style="width: 100%" name="method">
+                                    </input>
+                                    <div class="drop-down-input"><label class="drop-down-text">Choose</label> <img
+                                            style="width : 25px; height : 25px;" src="../dropdown-arrow-svgrepo-com.svg">
+                                    </div>
+
+                                </div>
+                                <div class="drop-down-value-group hide">
+                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'GET' ? 'selected' : '' }}"
+                                        value="GET">GET</div>
+                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'POST' ? 'selected' : '' }}"
+                                        value="POST">POST</div>
+                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'PUT' ? 'selected' : '' }}"
+                                        value="PUT">PUT</div>
+                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'PATCH' ? 'selected' : '' }}"
+                                        value="PATCH">PATCH</div>
+                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'DELETE' ? 'selected' : '' }}"
+                                        value="DELETE">DELETE</div>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="form-input-section">
                             <p class="form-title">Category</p>
-                            <select class="form-input-textbox" name="category">
-                                <option value=""
-                                {{ old('method', $input['method'] ?? '') ==  ""? 'selected' : '' }}>
-                                Uncategorized</option>
-                                @foreach ($category as $item)
-                                    <option value="{{$item->id}}"
-                                        {{ old('method', $input['method'] ?? '') == $item->categoryName ? 'selected' : '' }}>
-                                        {{$item->categoryName}}</option>
-                                @endforeach
+                            <div class="form-drop-box">
+                                <div class="form-input-dropdown drop-down-box">
+                                    <input type="hidden" class="drop-down-value" name="categoryId" value="{{ old('categoryId', $input['categoryId'] ?? '') }}" style="width: 100%">
+                                    <div class="drop-down-input">
+                                        <label class="drop-down-text">
+                                            {{ $category->firstWhere('id', old('categoryId', $input['categoryId'] ?? ''))->categoryName ?? 'Choose' }}
+                                        </label>
+                                        <img style="width: 25px; height: 25px;" src="../dropdown-arrow-svgrepo-com.svg">
+                                    </div>
+                                </div>
+                                <div class="drop-down-value-group hide">
+                                    @foreach ($category as $item)
+                                        <div class="drop-down-item {{ old('categoryId', $input['categoryId'] ?? '') == $item->id ? 'selected' : '' }}" value="{{ $item->id }}">
+                                            {{ $item->categoryName }}
+                                        </div>
+                                    @endforeach
+                                    <div class="drop-down-item {{ old('categoryId', $input['categoryId'] ?? '') == '' ? 'selected' : '' }}" value="">
+                                        Uncategorized
+                                    </div>
+                                </div>
+                            </div>
 
-                            </select>
                         </div>
                         <div class="form-input-section">
                             <p class="form-title">Description</p>
                             <textarea class="form-input-textbox" name="description" style="resize : none"> {{ old('description', $input['description'] ?? '') }}</textarea>
                         </div>
-                        <div class="form-input-section">
-                            <p class="form-title">Authorization</p>
-                            <div style="display: flex; align-items : center">
-                                <input style="height: auto; margin: 0" class="form-check-input" type="checkbox"
-                                    id="flexCheckDefault" name="authorization" value="1"
-                                    {{ old('authorization', $input['authorization'] ?? false) ? 'checked' : '' }} /> <label
-                                    style="height: auto ; margin :0 5px" class="form-check-label" for="flexCheckDefault">
-                                    Enable
-                                </label>
+                        @if ($authCheck == true)
+                            <div class="form-input-section">
+                                <p class="form-title">Authorization</p>
+                                <div style="display: flex; align-items : center">
+                                    <input style="height: auto; margin: 0" class="form-check-input" type="checkbox"
+                                        id="flexCheckDefault" name="authorization" value="1"
+                                        {{ old('authorization', $input['authorization'] ?? false) ? 'checked' : '' }} />
+                                    <label style="height: auto ; margin :0 5px" class="form-check-label"
+                                        for="flexCheckDefault">
+                                        Enable
+                                    </label>
+                                </div>
                             </div>
-                        </div>
+                        @endif
+
                         <div class="form-input-section">
                             <p class="form-title">Header</p>
-                            <textarea class="auto-resize-textarea" name="header" id="autoResizeTextarea"> {{ old('header', $input['header'] ?? '') }}</textarea>
+                            <textarea class="auto-resize-textarea autoResizeTextarea" name="header" id=""> {{ old('header', $input['header'] ?? '') }}</textarea>
                         </div>
                         <div class="form-input-section">
                             <p class="form-title">Body</p>
-                            <textarea class="auto-resize-textarea" name="body" id="autoResizeTextarea">{{ old('body', $input['body'] ?? '') }}</textarea>
+                            <textarea class="auto-resize-textarea autoResizeTextarea" name="body" id="">{{ old('body', $input['body'] ?? '') }}</textarea>
                         </div>
 
                         @if (isset($fail) == true && $fail != null)
@@ -185,19 +223,10 @@
                     </pre>
                         @endif
                     </div>
-                    <button type="submit" class="btn btn-submit">Test</button>
+                    <button type="submit" class="custom-button submit-button">Test</button>
                 </form>
             @endif
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const textarea = document.getElementById('autoResizeTextarea');
-            textarea.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = (this.scrollHeight) + 'px';
-            });
-            textarea.dispatchEvent(new Event('input'));
-        });
-    </script>
+@endsection

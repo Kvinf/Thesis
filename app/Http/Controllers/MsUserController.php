@@ -32,6 +32,65 @@ class MsUserController extends Controller
         //
     }
 
+    public function editUsername(Request $request)
+    {
+        DB::beginTransaction(); // Start the transaction
+        $validatedData = $request->validate([
+            'username' => 'required'
+        ]);
+
+        try {
+
+            $insertItem = ([
+                "username" => $validatedData['username'],
+            ]);
+
+            $project = MsUser::find(Auth::id());
+            if ($project) {
+                $project->update($insertItem);
+                DB::commit();
+                return redirect()->route('profile');
+            } else {
+                DB::rollBack();
+                return redirect()->route('profile')->withErrors('An error occur.');
+            }
+        } catch (Exception $ex) {
+            DB::rollback();
+            error_log($ex->getMessage());
+
+            return redirect()->route('signup')->withErrors('An error occurred: ' . $ex->getMessage());
+        }
+    }
+
+    public function editPassword(Request $request)
+    {
+        DB::beginTransaction(); // Start the transaction
+        $validatedData = $request->validate([
+            'password' => 'required'
+        ]);
+
+        try {
+            $insertItem = ([
+                "username" => $validatedData['username'],
+            ]);
+
+            $project = MsUser::find(Auth::id());
+            if ($project) {
+                $project->update($insertItem);
+                DB::commit();
+                return redirect()->route('profile');
+            } else {
+                DB::rollBack();
+                return redirect()->route('profile')->withErrors('An error occur.');
+            }
+        } catch (Exception $ex) {
+            DB::rollback();
+            error_log($ex->getMessage());
+
+            return redirect()->route('signup')->withErrors('An error occurred: ' . $ex->getMessage());
+        }
+    }
+
     public function login(Request $request)
     {
 
@@ -44,7 +103,7 @@ class MsUserController extends Controller
             $credentials = $request->only('email', 'password');
 
             if (Auth::attempt($credentials)) {
-               
+
                 $user = Auth::user();
 
                 if ($user->verified) {
@@ -81,7 +140,6 @@ class MsUserController extends Controller
             if (!$otpRecord) {
                 throw new Exception("Invalid OTP or User ID.");
                 return redirect()->route('/otp');
-
             }
 
             $otpRecord->delete();
@@ -98,8 +156,9 @@ class MsUserController extends Controller
         }
     }
 
-    public function dashboardview(){
-        $item = Project::where('projectOwner',Auth::id())->get();
+    public function dashboardview()
+    {
+        $item = Project::where('projectOwner', Auth::id())->get();
         error_log($item);
         return view('dashboard')->with('items', $item);
     }

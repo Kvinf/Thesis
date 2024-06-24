@@ -75,7 +75,9 @@ class APIListController extends Controller
     }
 
     public function addApi(Request $request)
-    {   
+    {
+
+        $request->merge(['authorization' => $request->has('authorization')]);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -93,20 +95,44 @@ class APIListController extends Controller
         try {
             DB::beginTransaction();
 
-            error_log($validated['categoryId']);
             if ($validated['categoryId'] == "") {
                 $validated['categoryId'] = null;
             }
+
+            $resultDecode = json_decode($validated['result'], true);
+
+
+            $category = APICategory::where('id', $validated['categoryId'])->first();
+
+            if ($validated['authorization'] == null) {
+                $validated['authorization'] = false;
+            } else {
+                if ($validated['authorization'] == true) {
+                    if ($category && $category->categoryName == "Authentication") {
+                        $item = APIList::where('categoryId', $validated['categoryId'])->first();
+                        if ($item) {
+                            return back()->withErrors("Authentication API already exist");
+                        }
+                    }
+                }
+            }
+
+            if ($category && $category->categoryName == "Authentication") {
+                if (!isset($resultDecode['accessToken'])) {
+                    return back()->withErrors("Authentication need to have accessToken result");
+                }
+            }
+
             APIList::create($validated);
             DB::commit();
-            return redirect()->route("project",['id' => $validated['projectId']]);
+            return redirect()->route("project", ['id' => $validated['projectId']]);
         } catch (Exception $ex) {
             error_log($ex);
             return back();
             DB::rollBack();
         }
-
     }
+
 
     public function showAddApiForm($id, Request $request)
     {
@@ -114,14 +140,43 @@ class APIListController extends Controller
         $fail = $request->query('fail');
         $input = $request->query('input');
 
-        $category = APICategory::where('projectId',$id)->get();
+        $category = APICategory::where('projectId', $id)->get();
+
+        $authCheck = APICategory::where('projectId', $id)->where('categoryName', 'Authentication')->first();
+
+
+        $authCheck = APIList::where('categoryId', $authCheck->id)->first();
 
         return view('addapi')->with([
             'projectId' => $id,
             'success' => $success ? json_encode($success, JSON_PRETTY_PRINT) : null,
             'fail' => $fail ? json_encode($fail, JSON_PRETTY_PRINT) : null,
             'input' => $input ? $input : null,
-            'category' => $category
+            'category' => $category,
+            'authCheck' => $authCheck ? true : false
+        ]);
+    }
+
+    public function showEditApiForm($id, Request $request, $init)
+    {
+        $success = $request->query('success');
+        $fail = $request->query('fail');
+        $input = $request->query('input');
+
+        $category = APICategory::where('projectId', $id)->get();
+
+        $authCheck = APICategory::where('projectId', $id)->where('categoryName', 'Authentication')->first();
+
+
+        $authCheck = APIList::where('categoryId', $authCheck->id)->first();
+
+        return view('addapi')->with([
+            'projectId' => $id,
+            'success' => $success && $init == false ? json_encode($success, JSON_PRETTY_PRINT) : null,
+            'fail' => $fail ? json_encode($fail, JSON_PRETTY_PRINT) : null,
+            'input' => $input ? $input : null,
+            'category' => $category,
+            'authCheck' => $authCheck ? true : false
         ]);
     }
 
@@ -138,9 +193,9 @@ class APIListController extends Controller
             'header' => 'nullable|string',
             'body' => 'nullable|string',
         ]);
-    
+
         $url = $validated['url'];
-    
+
         $headers = [];
         if (!empty($validated['header'])) {
             $headers = $this->sanitizeAndDecodeJson($validated['header'], 'header');
@@ -148,7 +203,7 @@ class APIListController extends Controller
                 return back()->withErrors(['header' => 'The header must be a valid JSON string.'])->withInput();
             }
         }
-    
+
         $body = [];
         if (!empty($validated['body'])) {
             $body = $this->sanitizeAndDecodeJson($validated['body'], 'body');
@@ -160,7 +215,7 @@ class APIListController extends Controller
             'headers' => $headers,
             'json' => $body,
         ];
-    
+
         switch (strtoupper($validated['method'])) {
             case 'POST':
                 $response = Http::withHeaders($options['headers'])->post($url, $options['json']);
@@ -178,7 +233,7 @@ class APIListController extends Controller
                 $response = Http::withHeaders($options['headers'])->get($url, $options['json']);
                 break;
         }
-    
+
         if ($response->successful()) {
             $data = $response->json();
             return redirect()->route('addapi', [
