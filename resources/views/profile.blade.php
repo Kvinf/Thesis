@@ -90,7 +90,7 @@
                                 <p style="margin: 0px">Delete Your Account</p>
                                 <p style="font-size: 13px; opacity: 80%;">Permanently Delete Your Account</p>
                             </div>
-                            <button type="button" class="custom-button close-button">Delete Account</button>
+                            <button type="button" onclick="accountDelet()" class="custom-button close-button">Delete Account</button>
                         </div>
 
                     </div>
@@ -103,6 +103,10 @@
 
         function onClickAlert() {
             alert("Password must be different from the previous one");
+        }
+
+        function accountDelet() {
+            alert("Account has been deleted");
         }
     </script>
 @endsection
