@@ -65,17 +65,18 @@
                                             @endif
                                             {{ $item->title }}
                                         </div>
-                                        @if ($role > 1)
-                                            <div>
+                                        <div>
+                                            <a href="{{ route('detail', ['id' => $item->id]) }}"><img
+                                                    style="width : 25px; height : 25px;"
+                                                    src="{{ asset('comment-detail-svgrepo-com.svg') }}"></a>
+                                            @if ($role > 1)
                                                 <button style="background-color: transparent; border : none"
                                                     data-toggle="modal" data-target="#editProjectModal"><img
                                                         style="z-index : 2;width : 25px; height : 25px;"
                                                         src="{{ asset('edit-3-svgrepo-com.svg') }}"></button>
-                                                <a href="{{ route('detail', ['id' => $item->id]) }}"><img
-                                                        style="width : 25px; height : 25px;"
-                                                        src="{{ asset('comment-detail-svgrepo-com.svg') }}"></a>
-                                            </div>
-                                        @endif
+                                            @endif
+                                        </div>
+
                                     </div>
                                     <div id="api-{{ $item->id }}" class="accordion-collapse collapse"
                                         data-parent="#category-{{ $loop->parent->index }}">
