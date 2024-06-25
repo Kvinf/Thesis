@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-input-section">
                     <p class="form-title">Category</p>
-                    <input class="form-input-textbox" name="url" value="{{$detail->category}}" disabled />
+                    <input class="form-input-textbox" name="url" value="{{$categoryName->categoryName}}" disabled />
 
                 </div>
                 <div class="form-input-section">
@@ -36,9 +36,9 @@
                 <div class="form-input-section">
                     <p class="form-title">Authorization</p>
                     @if ($detail->authorization == false) 
-                    <div>None</div>
+                    <div class="form-title">None</div>
                     @else 
-                    <div>Required</div>
+                    <div class="form-title">Required</div>
                     @endif
                 </div>
                 <div class="form-input-section">
