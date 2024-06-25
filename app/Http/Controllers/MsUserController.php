@@ -49,7 +49,7 @@ class MsUserController extends Controller
             if ($project) {
                 $project->update($insertItem);
                 DB::commit();
-                return redirect()->route('profile');
+                return redirect()->route('profile')->withErrors('Profile has been updated.');
             } else {
                 DB::rollBack();
                 return redirect()->route('profile')->withErrors('An error occur.');
