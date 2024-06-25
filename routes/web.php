@@ -149,7 +149,9 @@ Route::middleware('web')->group(function () {
 
         $item = APICategory::where('id',$detail->categoryId)->first();
 
-        return view('detailapi')->with(['detail' => $detail, 'categoryName' => $item]);
+        
+
+        return view('detailapi')->with(['detail' => $detail, 'category' => $item]);
     })->name('detail');
 
     Route::get('/logout', function () {

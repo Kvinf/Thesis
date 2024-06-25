@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-input-section">
                     <p class="form-title">Category</p>
-                    <input class="form-input-textbox" name="url" value="{{$categoryName->categoryName}}" disabled />
+                    <input class="form-input-textbox" name="url" value="{{$category->categoryName}}" disabled />
 
                 </div>
                 <div class="form-input-section">
