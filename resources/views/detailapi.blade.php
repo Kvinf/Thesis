@@ -26,12 +26,12 @@
                 </div>
                 <div class="form-input-section">
                     <p class="form-title">Category</p>
-                    <input class="form-input-textbox" name="url" value="{{$category->categoryName}}" disabled />
+                    <input class="form-input-textbox" name="url" value="{{$category->categoryName ?? "Uncategorized"}}" disabled />
 
                 </div>
                 <div class="form-input-section">
                     <p class="form-title">Description</p>
-                    <textarea class="form-input-textbox" name="description" style="resize : none"> {{$detail->description ?? "Uncategorized"}}</textarea>
+                    <textarea class="form-input-textbox" name="description" style="resize : none"> {{$detail->description }}</textarea>
                 </div>
                 <div class="form-input-section">
                     <p class="form-title">Authorization</p>
