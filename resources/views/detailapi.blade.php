@@ -31,7 +31,7 @@
                 </div>
                 <div class="form-input-section">
                     <p class="form-title">Description</p>
-                    <textarea class="form-input-textbox" name="description" style="resize : none"> {{$detail->description}}</textarea>
+                    <textarea class="form-input-textbox" name="description" style="resize : none"> {{$detail->description ?? "Uncategorized"}}</textarea>
                 </div>
                 <div class="form-input-section">
                     <p class="form-title">Authorization</p>
