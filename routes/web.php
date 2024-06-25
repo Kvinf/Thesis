@@ -144,6 +144,11 @@ Route::middleware('web')->group(function () {
         return view('login');
     })->name("login");
 
+    Route::get('detailapi/{id}', function ($id) {
+        $detail = APIList::where('id',$id)->first();
+        return view('detailapi')->with('detail',$detail);
+    })->name('detail');
+
     Route::get('/logout', function () {
         Auth::logout();
         return redirect()->route('dashboard');
