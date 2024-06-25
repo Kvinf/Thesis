@@ -77,7 +77,7 @@
                                     class="form-control" id="name" name="name">
                             </div>
                             <div style="margin-top: 30px">
-                                <button class="custom-button submit-button" type="submit">Update Password</button>
+                                <button class="custom-button submit-button" onclick="onClickAlert()">Update Password</button>
                             </div>
                         </div>
                     </div>
@@ -98,4 +98,11 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+        function onClickAlert() {
+            alert("Password must be different from the previous one");
+        }
+    </script>
 @endsection

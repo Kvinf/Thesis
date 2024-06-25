@@ -6,9 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{asset('login.css')}}">
+    <link rel="stylesheet" href="{{ asset('login.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                alert("{{ $errors->first() }}");
+            });
+        </script>
+    @endif
     <style>
         a:hover {
             color: white;
@@ -33,7 +40,7 @@
                             <input type="text" class="form-control" id="name" name="username"
                                 style="color : #f4f4f4 ; background-color: transparent">
                         </div>
-                       
+
                         <div style="flex : 3 ; margin-right : 10px;margin-bottom : 10px">
                             <div style="font-weight : bold;margin-bottom : 10px">Email</div>
                             <input type="text" class="form-control" id="name" name="email"
