@@ -23,7 +23,7 @@ Route::get('/profile', function () {
 
 Route::get('/addapi/{id}', [APIListController::class, 'showAddApiForm'])->name('addapi')->middleware('auth');
 
-Route::get('/editapi/{id}/{init}}', [APIListController::class, 'showEditApiForm'])->name('editapi')->middleware('auth');
+Route::get('/editapi/{id}/{init}', [APIListController::class, 'showEditApiForm'])->name('editapi')->middleware('auth');
 
 Route::get('/project/{id}', function ($id) {
 
