@@ -70,7 +70,7 @@
                                                     style="width : 25px; height : 25px;"
                                                     src="{{ asset('comment-detail-svgrepo-com.svg') }}"></a>
                                             @if ($role > 1)
-                                                <a href="{{route('editapi', ['id' => $project->id])}}" style="background-color: transparent; border : none"
+                                                <a href="{{route('editapi', ['id' => $item->id])}}" style="background-color: transparent; border : none"
                                                     ><img
                                                         style="z-index : 2;width : 25px; height : 25px;"
                                                         src="{{ asset('edit-3-svgrepo-com.svg') }}"></a>
