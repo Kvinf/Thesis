@@ -144,7 +144,6 @@ class APIListController extends Controller
 
         $authCheck = APICategory::where('projectId', $id)->where('categoryName', 'Authentication')->first();
 
-
         $authCheck = APIList::where('categoryId', $authCheck->id)->first();
 
         return view('addapi')->with([
@@ -157,15 +156,16 @@ class APIListController extends Controller
         ]);
     }
 
-    public function showEditApiForm($id, Request $request, $init)
+    public function showEditApiForm($id, Request $request)
     {
         $success = $request->query('success');
         $fail = $request->query('fail');
-        $input = $request->query('input');
 
-        $category = APICategory::where('projectId', $id)->get();
+        $input = APIList::where('id',$id)->first();
 
-        $authCheck = APICategory::where('projectId', $id)->where('categoryName', 'Authentication')->first();
+        $category = APICategory::where('projectId', $input->projectId)->get();
+
+        $authCheck = APICategory::where('projectId',  $input->projectId)->where('categoryName', 'Authentication')->first();
 
         if ($authCheck) {
             $authCheck = APIList::where('categoryId', $authCheck->id)->first();
@@ -174,10 +174,9 @@ class APIListController extends Controller
             $authCheck = false;
         }
 
-
-        return view('addapi')->with([
-            'projectId' => $id,
-            'success' => $success && $init == false ? json_encode($success, JSON_PRETTY_PRINT) : null,
+        return view('editapi')->with([
+            'projectId' => $id, 
+            'success' => $success ? json_encode($success, JSON_PRETTY_PRINT) : null,
             'fail' => $fail ? json_encode($fail, JSON_PRETTY_PRINT) : null,
             'input' => $input ? $input : null,
             'category' => $category,
@@ -185,9 +184,78 @@ class APIListController extends Controller
         ]);
     }
 
+    public function showEditApiConfirmationForm(Request $request)
+    {
+        $validated = $request->validate([
+            'projectId' => 'required',
+            'title' => 'required|string|max:255',
+            'url' => 'required|url',
+            'method' => 'required|string|in:GET,POST,PUT,PATCH,DELETE',
+            'description' => 'required|string',
+            'authorization' => 'nullable|boolean',
+            'header' => 'nullable|string',
+            'body' => 'nullable|string',
+        ]);
+
+        $url = $validated['url'];
+
+        $headers = [];
+        if (!empty($validated['header'])) {
+            $headers = $this->sanitizeAndDecodeJson($validated['header'], 'header');
+            if (is_null($headers)) {
+                return back()->withErrors(['header' => 'The header must be a valid JSON string.'])->withInput();
+            }
+        }
+
+        $body = [];
+        if (!empty($validated['body'])) {
+            $body = $this->sanitizeAndDecodeJson($validated['body'], 'body');
+            if (is_null($body)) {
+                return back()->withErrors(['body' => 'The body must be a valid JSON string.'])->withInput();
+            }
+        }
+        $options = [
+            'headers' => $headers,
+            'json' => $body,
+        ];
+
+        switch (strtoupper($validated['method'])) {
+            case 'POST':
+                $response = Http::withHeaders($options['headers'])->post($url, $options['json']);
+                break;
+            case 'PUT':
+                $response = Http::withHeaders($options['headers'])->put($url, $options['json']);
+                break;
+            case 'PATCH':
+                $response = Http::withHeaders($options['headers'])->patch($url, $options['json']);
+                break;
+            case 'DELETE':
+                $response = Http::withHeaders($options['headers'])->delete($url, $options['json']);
+                break;
+            default: // GET
+                $response = Http::withHeaders($options['headers'])->get($url, $options['json']);
+                break;
+        }
+
+        if ($response->successful()) {
+            $data = $response->json();
+            return redirect()->route('editapi', [
+                'id' => $validated['projectId'],
+                'success' => $data,
+                'input' => $validated
+            ]);
+        } else {
+            $data = $response->json();
+            return redirect()->route('editapi', [
+                'id' => $validated['projectId'],
+                'fail' => $data,
+                'input' => $validated
+            ]);
+        }
+    }
+
     public function testApi(Request $request)
     {
-        // Validate the request input
         $validated = $request->validate([
             'projectId' => 'required',
             'title' => 'required|string|max:255',

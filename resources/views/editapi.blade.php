@@ -12,7 +12,7 @@
                 <form method="POST" action="{{ route('addapipost') }}">
                     @csrf
                     <div class="title-container">
-                        <h2 class="content-title">Add API</h2>
+                        <h2 class="content-title">Edit API</h2>
                     </div>
                     <div class="vertical-card-container" style="width: 70%">
                         <input type="hidden" name="projectId" value="{{ $projectId }}">
@@ -119,7 +119,7 @@
                     <button type="submit" class="btn btn-submit">Submit</button>
                 </form>
             @else
-                <form method="POST" action="{{ route('testapi') }}">
+                <form method="POST" action="{{ route('edittestappi') }}">
                     @csrf
                     <div class="title-container">
                         <h2 class="content-title">Add API</h2>
