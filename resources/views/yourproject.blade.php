@@ -70,10 +70,10 @@
                                                     style="width : 25px; height : 25px;"
                                                     src="{{ asset('comment-detail-svgrepo-com.svg') }}"></a>
                                             @if ($role > 1)
-                                                <button style="background-color: transparent; border : none"
-                                                    data-toggle="modal" data-target="#editProjectModal"><img
+                                                <a href="{{route("editapi")}}" style="background-color: transparent; border : none"
+                                                    ><img
                                                         style="z-index : 2;width : 25px; height : 25px;"
-                                                        src="{{ asset('edit-3-svgrepo-com.svg') }}"></button>
+                                                        src="{{ asset('edit-3-svgrepo-com.svg') }}"></a>
                                             @endif
                                         </div>
 

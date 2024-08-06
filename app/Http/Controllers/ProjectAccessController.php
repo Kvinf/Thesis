@@ -63,8 +63,7 @@ class ProjectAccessController extends Controller
 
             if ($item) {
 
-
-                $itemAccess = ProjectAccess::where('userId', $item->id)->first();
+                $itemAccess = ProjectAccess::where('userId', $item->id)->where('projectId',$request->input("projectId"))->first();
 
                 if ($itemAccess) {
                     return back()->withErrors('Email already in access list');
