@@ -167,7 +167,13 @@ class APIListController extends Controller
 
         $authCheck = APICategory::where('projectId', $id)->where('categoryName', 'Authentication')->first();
 
-        $authCheck = APIList::where('categoryId', $authCheck->id)->first();
+        if ($authCheck) {
+            $authCheck = APIList::where('categoryId', $authCheck->id)->first();
+
+        } else {
+            $authCheck = false;
+        }
+
 
         return view('addapi')->with([
             'projectId' => $id,
