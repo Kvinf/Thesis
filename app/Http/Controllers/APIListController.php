@@ -128,7 +128,7 @@ class APIListController extends Controller
 
             if ($item) {
 
-          
+
 
                 $item->update($validated);
             } else {
@@ -232,7 +232,7 @@ class APIListController extends Controller
         $success = $request->query('success');
         $fail = $request->query('fail');
         $input = $request->query('input');
-    
+
         if ($input) {
             if (is_string($input)) {
                 $input = json_decode($input);
@@ -242,20 +242,20 @@ class APIListController extends Controller
         } else {
             $input = APIList::where('id', $id)->first();
         }
-    
+
         if (!$input || is_null($input)) {
             return back()->withErrors("API Unknown");
         }
-    
+
         $category = APICategory::where('projectId', $input->projectId)->get();
-    
+
         $authCheckCategory = APICategory::where('projectId', $input->projectId)->where('categoryName', 'Authentication')->first();
-    
+
         $authCheck = false;
         if ($authCheckCategory) {
             $authCheck = APIList::where('categoryId', $authCheckCategory->id)->first();
         }
-    
+
         return view('editapi')->with([
             'apiId' => $id,
             'projectId' => $input->projectId,
@@ -266,8 +266,8 @@ class APIListController extends Controller
             'authCheck' => $authCheck ? true : false
         ]);
     }
-    
-    
+
+
     public function showEditApiConfirmationForm(Request $request)
     {
         $validated = $request->validate([
@@ -286,12 +286,67 @@ class APIListController extends Controller
         $url = $validated['url'];
 
         $headers = [];
-        if (!empty($validated['header'])) {
-            $headers = $this->sanitizeAndDecodeJson($validated['header'], 'header');
-            if (is_null($headers)) {
-                return back()->withErrors(['header' => 'The header must be a valid JSON string.'])->withInput();
+
+        if (!$request->input('authorization')) {
+            if (!empty($validated['header'])) {
+                $headers = $this->sanitizeAndDecodeJson($validated['header'], 'header');
+                if (is_null($headers)) {
+                    return back()->withErrors(['header' => 'The header must be a valid JSON string.'])->withInput();
+                }
+            }
+        } else {
+
+            $apilist = APIList::where("projectId", $request->input("projectId"))->get();
+            $authToken = "";
+            foreach ($apilist as $api) {
+                $auth = APICategory::where("id", $api->categoryId)->first();
+
+                if ($auth->categoryName != null && $auth->categoryName == "Authentication") {
+                    $options = [
+                        'headers' => $auth->header,
+                        'json' => $auth->body,
+                    ];
+
+                    switch (strtoupper($validated['method'])) {
+                        case 'POST':
+                            $response = Http::withHeaders($options['headers'])->post($url, $options['json']);
+                            break;
+                        case 'PUT':
+                            $response = Http::withHeaders($options['headers'])->put($url, $options['json']);
+                            break;
+                        case 'PATCH':
+                            $response = Http::withHeaders($options['headers'])->patch($url, $options['json']);
+                            break;
+                        case 'DELETE':
+                            $response = Http::withHeaders($options['headers'])->delete($url, $options['json']);
+                            break;
+                        default: // GET
+                            $response = Http::withHeaders($options['headers'])->get($url, $options['json']);
+                            break;
+                    }
+
+                    if ($response->successful()) {
+                        $data = $response->json();
+                        $authToken = $data->access_token;
+                    }
+
+                    if (!empty($validated['header'])) {
+
+                        $headers = $this->sanitizeAndDecodeJson($validated['header'], 'header');
+                        if (is_null($headers)) {
+                            return back()->withErrors(['header' => 'The header must be a valid JSON string.'])->withInput();
+                        }
+
+                        foreach ($headers as $key => $value) {
+                            if (is_string($value) && strpos($value, '${access_token}') !== false) {
+                                $headers[$key] = str_replace('${access_token}', $authToken, $value);
+                            }
+                        }
+                    }
+                }
             }
         }
+
 
         $body = [];
         if (!empty($validated['body'])) {
@@ -359,10 +414,63 @@ class APIListController extends Controller
         $url = $validated['url'];
 
         $headers = [];
-        if (!empty($validated['header'])) {
-            $headers = $this->sanitizeAndDecodeJson($validated['header'], 'header');
-            if (is_null($headers)) {
-                return back()->withErrors(['header' => 'The header must be a valid JSON string.'])->withInput();
+        if (!$request->input('authorization')) {
+            if (!empty($validated['header'])) {
+                $headers = $this->sanitizeAndDecodeJson($validated['header'], 'header');
+                if (is_null($headers)) {
+                    return back()->withErrors(['header' => 'The header must be a valid JSON string.'])->withInput();
+                }
+            }
+        } else {
+
+            $apilist = APIList::where("projectId", $request->input("projectId"))->get();
+            $authToken = "";
+            foreach ($apilist as $api) {
+                $auth = APICategory::where("id", $api->categoryId)->first();
+
+                if ($auth->categoryName != null && $auth->categoryName == "Authentication") {
+                    $options = [
+                        'headers' => $auth->header,
+                        'json' => $auth->body,
+                    ];
+
+                    switch (strtoupper($validated['method'])) {
+                        case 'POST':
+                            $response = Http::withHeaders($options['headers'])->post($url, $options['json']);
+                            break;
+                        case 'PUT':
+                            $response = Http::withHeaders($options['headers'])->put($url, $options['json']);
+                            break;
+                        case 'PATCH':
+                            $response = Http::withHeaders($options['headers'])->patch($url, $options['json']);
+                            break;
+                        case 'DELETE':
+                            $response = Http::withHeaders($options['headers'])->delete($url, $options['json']);
+                            break;
+                        default: // GET
+                            $response = Http::withHeaders($options['headers'])->get($url, $options['json']);
+                            break;
+                    }
+
+                    if ($response->successful()) {
+                        $data = $response->json();
+                        $authToken = $data->access_token;
+                    }
+
+                    if (!empty($validated['header'])) {
+
+                        $headers = $this->sanitizeAndDecodeJson($validated['header'], 'header');
+                        if (is_null($headers)) {
+                            return back()->withErrors(['header' => 'The header must be a valid JSON string.'])->withInput();
+                        }
+
+                        foreach ($headers as $key => $value) {
+                            if (is_string($value) && strpos($value, '${access_token}') !== false) {
+                                $headers[$key] = str_replace('${access_token}', $authToken, $value);
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -417,7 +525,6 @@ class APIListController extends Controller
     {
         try {
             $decoded = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-            // Sanitize the JSON data
             $sanitized = $this->sanitizeArray($decoded);
         } catch (\JsonException $e) {
             return null;
