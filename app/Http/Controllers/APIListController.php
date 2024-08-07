@@ -287,7 +287,7 @@ class APIListController extends Controller
 
         $headers = [];
 
-        if (!$request->input('authorization')) {
+        if (!$request->input('authorization') &&  $request->input('authorization')== false) {
             if (!empty($validated['header'])) {
                 $headers = $this->sanitizeAndDecodeJson($validated['header'], 'header');
                 if (is_null($headers)) {
@@ -295,7 +295,6 @@ class APIListController extends Controller
                 }
             }
         } else {
-
             $apilist = APIList::where("projectId", $request->input("projectId"))->get();
             $authToken = "";
             foreach ($apilist as $api) {
@@ -307,7 +306,7 @@ class APIListController extends Controller
                         'json' => $auth->body,
                     ];
 
-                    switch (strtoupper($validated['method'])) {
+                    switch (strtoupper($auth->method)) {
                         case 'POST':
                             $response = Http::withHeaders($options['headers'])->post($url, $options['json']);
                             break;
@@ -434,7 +433,7 @@ class APIListController extends Controller
                         'json' => $auth->body,
                     ];
 
-                    switch (strtoupper($validated['method'])) {
+                    switch (strtoupper($auth->method)) {
                         case 'POST':
                             $response = Http::withHeaders($options['headers'])->post($url, $options['json']);
                             break;
