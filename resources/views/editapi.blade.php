@@ -30,11 +30,11 @@
                             <p class="form-title">Method</p>
                             <div class="form-drop-box">
                                 <div class="form-input-dropdown drop-down-box">
-                                    <input type="hidden" value="{{ old('title', $input['method'] ?? '') }}"
+                                    <input type="hidden" value="{{ old('method', $input['method'] ?? '') }}"
                                         class=" drop-down-value" style="width: 100%" name="method">
                                     </input>
                                     <div class="drop-down-input"><label
-                                            class="drop-down-text">{{ old('title', $input['method'] ?? 'Choose') }}</label>
+                                            class="drop-down-text">{{ old('method', $input['method'] ?? 'Choose') }}</label>
                                         <img style="width : 25px; height : 25px;" src="{{asset('dropdown-arrow-svgrepo-com.svg')}}">
                                     </div>
 
