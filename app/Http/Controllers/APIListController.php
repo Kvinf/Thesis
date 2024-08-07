@@ -74,6 +74,77 @@ class APIListController extends Controller
         //
     }
 
+    public function editApi(Request $request)
+    {
+
+        $request->merge(['authorization' => $request->has('authorization')]);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'url' => 'required|url',
+            'method' => 'required|string|in:GET,POST,PUT,PATCH,DELETE',
+            'description' => 'required|string',
+            'authorization' => 'nullable|boolean',
+            'header' => 'nullable|string',
+            'body' => 'nullable|string',
+            'result' => 'required|string',
+            'projectId' => 'required',
+            'categoryId' => 'nullable',
+            'id' => 'required|string'
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            if ($validated['categoryId'] == "") {
+                $validated['categoryId'] = null;
+            }
+
+            $resultDecode = json_decode($validated['result'], true);
+
+
+            $category = APICategory::where('id', $validated['categoryId'])->first();
+
+            if ($validated['authorization'] == null) {
+                $validated['authorization'] = false;
+            } else {
+                if ($validated['authorization'] == true) {
+                    if ($category && $category->categoryName == "Authentication") {
+                        $item = APIList::where('categoryId', $validated['categoryId'])->first();
+                        if ($item) {
+                            return back()->withErrors("Authentication API already exist");
+                        }
+                    }
+                }
+            }
+
+            if ($category && $category->categoryName == "Authentication") {
+                if (!isset($resultDecode['accessToken'])) {
+                    return back()->withErrors("Authentication need to have accessToken result");
+                }
+            }
+
+            $item = APIList::where("id", $request->input("id"))->first();
+
+            if ($item) {
+
+          
+
+                $item->update($validated);
+            } else {
+                return back()->withErrors("Update Failed");
+            }
+
+            DB::commit();
+            return redirect()->route("project", ['id' => $validated['projectId']]);
+        } catch (Exception $ex) {
+            error_log($ex);
+            return back();
+            DB::rollBack();
+        }
+    }
+
+
     public function addApi(Request $request)
     {
 
@@ -160,42 +231,53 @@ class APIListController extends Controller
     {
         $success = $request->query('success');
         $fail = $request->query('fail');
-
-        $input = APIList::where('id',$id)->first();
-
-        if (!$input) {
+        $input = $request->query('input');
+    
+        if ($input) {
+            if (is_string($input)) {
+                $input = json_decode($input);
+            } elseif (is_array($input)) {
+                $input = (object) $input;
+            }
+        } else {
+            $input = APIList::where('id', $id)->first();
+        }
+    
+        if (!$input || is_null($input)) {
             return back()->withErrors("API Unknown");
         }
-
+    
         $category = APICategory::where('projectId', $input->projectId)->get();
-
-        $authCheck = APICategory::where('projectId',  $input->projectId)->where('categoryName', 'Authentication')->first();
-
-        if ($authCheck) {
-            $authCheck = APIList::where('categoryId', $authCheck->id)->first();
-
-        } else {
-            $authCheck = false;
+    
+        $authCheckCategory = APICategory::where('projectId', $input->projectId)->where('categoryName', 'Authentication')->first();
+    
+        $authCheck = false;
+        if ($authCheckCategory) {
+            $authCheck = APIList::where('categoryId', $authCheckCategory->id)->first();
         }
-
+    
         return view('editapi')->with([
-            'projectId' => $id, 
+            'apiId' => $id,
+            'projectId' => $input->projectId,
             'success' => $success ? json_encode($success, JSON_PRETTY_PRINT) : null,
             'fail' => $fail ? json_encode($fail, JSON_PRETTY_PRINT) : null,
-            'input' => $input ? $input : null,
+            'input' => $input,
             'category' => $category,
             'authCheck' => $authCheck ? true : false
         ]);
     }
-
+    
+    
     public function showEditApiConfirmationForm(Request $request)
     {
         $validated = $request->validate([
-            'projectId' => 'required',
+            'id' => 'required',
             'title' => 'required|string|max:255',
             'url' => 'required|url',
             'method' => 'required|string|in:GET,POST,PUT,PATCH,DELETE',
             'description' => 'required|string',
+            'categoryId' => 'nullable',
+            'projectId' => 'required|string',
             'authorization' => 'nullable|boolean',
             'header' => 'nullable|string',
             'body' => 'nullable|string',
@@ -241,17 +323,19 @@ class APIListController extends Controller
                 break;
         }
 
+
+
         if ($response->successful()) {
             $data = $response->json();
             return redirect()->route('editapi', [
-                'id' => $validated['projectId'],
+                'id' => $validated['id'],
                 'success' => $data,
                 'input' => $validated
             ]);
         } else {
             $data = $response->json();
             return redirect()->route('editapi', [
-                'id' => $validated['projectId'],
+                'id' => $validated['id'],
                 'fail' => $data,
                 'input' => $validated
             ]);
@@ -266,6 +350,7 @@ class APIListController extends Controller
             'url' => 'required|url',
             'method' => 'required|string|in:GET,POST,PUT,PATCH,DELETE',
             'description' => 'required|string',
+            'categoryId' => 'nullable',
             'authorization' => 'nullable|boolean',
             'header' => 'nullable|string',
             'body' => 'nullable|string',

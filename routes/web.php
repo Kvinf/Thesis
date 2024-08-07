@@ -85,6 +85,7 @@ Route::get('/project/{id}', function ($id) {
 
 
 Route::post('addapi', [APIListController::class, 'addApi'])->name('addapipost');
+Route::post('editapi', [APIListController::class, 'editApi'])->name('editapipost');
 Route::post('edittestappi', [APIListController::class, 'showEditApiConfirmationForm'])->name('edittestappi');
 Route::post('testapi', [APIListController::class, 'testapi'])->name('testapi');
 Route::post('register', [MsUserController::class, 'create'])->name('register');

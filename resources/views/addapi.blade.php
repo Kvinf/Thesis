@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('header')
-    <link rel="stylesheet" href="{{asset('addapi.css')}}">
+    <link rel="stylesheet" href="{{ asset('addapi.css') }}">
 @endsection
 
 @section('content')
@@ -19,72 +19,53 @@
                         <div class="form-input-section">
                             <p class="form-title">Title</p>
                             <input class="form-input-textbox" name="title"
-                                value="{{ old('title', $input['title'] ?? '') }}">
+                                value="{{ old('title', $input['title'] ?? '') }}" readonly>
                         </div>
                         <div class="form-input-section">
                             <p class="form-title">URL</p>
-                            <input class="form-input-textbox" name="url"
-                                value="{{ old('url', $input['url'] ?? '') }}" />
+                            <input class="form-input-textbox" name="url" value="{{ old('url', $input['url'] ?? '') }}"
+                                readonly />
                         </div>
                         <div class="form-input-section">
                             <p class="form-title">Method</p>
                             <div class="form-drop-box">
                                 <div class="form-input-dropdown drop-down-box">
                                     <input type="hidden" value="{{ old('title', $input['method'] ?? '') }}"
-                                        class=" drop-down-value" style="width: 100%" name="method">
+                                        class=" drop-down-value" style="width: 100%" name="method" readonly>
                                     </input>
                                     <div class="drop-down-input"><label
                                             class="drop-down-text">{{ old('title', $input['method'] ?? 'Choose') }}</label>
-                                        <img style="width : 25px; height : 25px;" src="{{asset('dropdown-arrow-svgrepo-com.svg')}}">
+                                        <img style="width : 25px; height : 25px;"
+                                            src="{{ asset('dropdown-arrow-svgrepo-com.svg') }}">
                                     </div>
-
-                                </div>
-                                <div class="drop-down-value-group hide">
-                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'GET' ? 'selected' : '' }}"
-                                        value="GET">GET</div>
-                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'POST' ? 'selected' : '' }}"
-                                        value="POST">POST</div>
-                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'PUT' ? 'selected' : '' }}"
-                                        value="PUT">PUT</div>
-                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'PATCH' ? 'selected' : '' }}"
-                                        value="PATCH">PATCH</div>
-                                    <div class="drop-down-item {{ old('method', $input['method'] ?? '') == 'DELETE' ? 'selected' : '' }}"
-                                        value="DELETE">DELETE</div>
                                 </div>
                             </div>
-
                         </div>
+
+
+
                         <div class="form-input-section">
                             <p class="form-title">Category</p>
                             <div class="form-drop-box">
                                 <div class="form-input-dropdown drop-down-box">
                                     <input type="hidden" class="drop-down-value" name="categoryId"
-                                        value="{{ old('categoryId', $input['categoryId'] ?? '') }}" style="width: 100%">
+                                        value="{{ old('categoryId', $input['categoryId'] ?? '') }}" style="width: 100%"
+                                        readonly>
                                     <div class="drop-down-input">
                                         <label class="drop-down-text">
                                             {{ $category->firstWhere('id', old('categoryId', $input['categoryId'] ?? ''))->categoryName ?? 'Choose' }}
                                         </label>
-                                        <img style="width: 25px; height: 25px;" src="{{asset('dropdown-arrow-svgrepo-com.svg')}}">
+                                        <img style="width: 25px; height: 25px;"
+                                            src="{{ asset('dropdown-arrow-svgrepo-com.svg') }}">
                                     </div>
                                 </div>
-                                <div class="drop-down-value-group hide">
-                                    @foreach ($category as $item)
-                                        <div class="drop-down-item {{ old('categoryId', $input['categoryId'] ?? '') == $item->id ? 'selected' : '' }}"
-                                            value="{{ $item->id }}">
-                                            {{ $item->categoryName }}
-                                        </div>
-                                    @endforeach
-                                    <div class="drop-down-item {{ old('categoryId', $input['categoryId'] ?? '') == '' ? 'selected' : '' }}"
-                                        value="">
-                                        Uncategorized
-                                    </div>
-                                </div>
+
                             </div>
 
                         </div>
                         <div class="form-input-section">
                             <p class="form-title">Description</p>
-                            <textarea class="form-input-textbox" name="description" style="resize : none"> {{ old('description', $input['description'] ?? '') }}</textarea>
+                            <textarea class="form-input-textbox" name="description" style="resize : none" readonly> {{ old('description', $input['description'] ?? '') }}</textarea>
                         </div>
                         @if ($authCheck == true)
                             <div class="form-input-section">
@@ -102,11 +83,11 @@
                         @endif
                         <div class="form-input-section">
                             <p class="form-title">Header</p>
-                            <textarea class="auto-resize-textarea autoResizeTextarea" name="header" id=""> {{ old('header', $input['header'] ?? '') }}</textarea>
+                            <textarea class="auto-resize-textarea autoResizeTextarea" name="header" id="" readonly> {{ old('header', $input['header'] ?? '') }}</textarea>
                         </div>
                         <div class="form-input-section">
                             <p class="form-title">Body</p>
-                            <textarea class="auto-resize-textarea autoResizeTextarea" name="body" id="">{{ old('body', $input['body'] ?? '') }}</textarea>
+                            <textarea class="auto-resize-textarea autoResizeTextarea" name="body" id="" readonly>{{ old('body', $input['body'] ?? '') }}</textarea>
                         </div>
                         <input type="hidden" name="result" value="{{ $success }}">
 
@@ -143,7 +124,8 @@
                                     <input type="hidden" class=" drop-down-value" style="width: 100%" name="method">
                                     </input>
                                     <div class="drop-down-input"><label class="drop-down-text">Choose</label> <img
-                                            style="width : 25px; height : 25px;" src="{{asset('dropdown-arrow-svgrepo-com.svg')}}">
+                                            style="width : 25px; height : 25px;"
+                                            src="{{ asset('dropdown-arrow-svgrepo-com.svg') }}">
                                     </div>
 
                                 </div>
@@ -166,21 +148,25 @@
                             <p class="form-title">Category</p>
                             <div class="form-drop-box">
                                 <div class="form-input-dropdown drop-down-box">
-                                    <input type="hidden" class="drop-down-value" name="categoryId" value="{{ old('categoryId', $input['categoryId'] ?? '') }}" style="width: 100%">
+                                    <input type="hidden" class="drop-down-value" name="categoryId"
+                                        value="{{ old('categoryId', $input['categoryId'] ?? '') }}" style="width: 100%">
                                     <div class="drop-down-input">
                                         <label class="drop-down-text">
                                             {{ $category->firstWhere('id', old('categoryId', $input['categoryId'] ?? ''))->categoryName ?? 'Choose' }}
                                         </label>
-                                        <img style="width: 25px; height: 25px;" src="{{asset('dropdown-arrow-svgrepo-com.svg')}}">
+                                        <img style="width: 25px; height: 25px;"
+                                            src="{{ asset('dropdown-arrow-svgrepo-com.svg') }}">
                                     </div>
                                 </div>
                                 <div class="drop-down-value-group hide">
                                     @foreach ($category as $item)
-                                        <div class="drop-down-item {{ old('categoryId', $input['categoryId'] ?? '') == $item->id ? 'selected' : '' }}" value="{{ $item->id }}">
+                                        <div class="drop-down-item {{ old('categoryId', $input['categoryId'] ?? '') == $item->id ? 'selected' : '' }}"
+                                            value="{{ $item->id }}">
                                             {{ $item->categoryName }}
                                         </div>
                                     @endforeach
-                                    <div class="drop-down-item {{ old('categoryId', $input['categoryId'] ?? '') == '' ? 'selected' : '' }}" value="">
+                                    <div class="drop-down-item {{ old('categoryId', $input['categoryId'] ?? '') == '' ? 'selected' : '' }}"
+                                        value="">
                                         Uncategorized
                                     </div>
                                 </div>

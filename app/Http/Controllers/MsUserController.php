@@ -103,7 +103,7 @@ class MsUserController extends Controller
             $credentials = $request->only('email', 'password');
 
             if (Auth::attempt($credentials)) {
-
+                
                 $user = Auth::user();
 
                 if ($user->verified) {
@@ -148,7 +148,7 @@ class MsUserController extends Controller
 
             DB::commit();
 
-            return redirect()->route('/');
+            return redirect()->route('dashboard');
         } catch (Exception $ex) {
             DB::rollback();
             error_log($ex->getMessage());
@@ -190,9 +190,13 @@ class MsUserController extends Controller
 
             Auth::user($user);
 
+            $credentials = $request->only('email', 'password');
+
+            Auth::attempt($credentials);
+
             DB::commit();
 
-            return redirect()->route('signup');
+            return redirect()->route('otp');
         } catch (Exception $ex) {
             DB::rollback();
             error_log($ex->getMessage());
