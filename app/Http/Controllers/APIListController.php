@@ -163,6 +163,10 @@ class APIListController extends Controller
 
         $input = APIList::where('id',$id)->first();
 
+        if (!$input) {
+            return back()->withErrors("API Unknown");
+        }
+
         $category = APICategory::where('projectId', $input->projectId)->get();
 
         $authCheck = APICategory::where('projectId',  $input->projectId)->where('categoryName', 'Authentication')->first();
